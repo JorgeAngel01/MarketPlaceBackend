@@ -1,6 +1,16 @@
 "use client";
 
 function LoginPage() {
+  const handleLogin = async () => {
+    try {
+      const response = await fetch("/api/restaurantes");
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  };
+
   return (
     <div className="h-[calc(100vh-7rem)] flex justify-center items-center">
       {/* <form onSubmit={handleLogin} className="w-1/4">
@@ -52,7 +62,10 @@ function LoginPage() {
           </span>
         )} */}
 
-        <button className="w-full bg-blue-500 text-white p-3 rounded-lg mt-2">
+        <button
+          onClick={handleLogin}
+          className="w-full bg-blue-500 text-white p-3 rounded-lg mt-2"
+        >
           Login
         </button>
       </div>
