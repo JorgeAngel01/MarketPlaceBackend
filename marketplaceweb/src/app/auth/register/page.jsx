@@ -60,6 +60,48 @@ function RegisterPage() {
           </span>
         )}
 
+        <label htmlFor="first_name" className="text-slate-500 mb-2 block text-sm">
+          First Name:
+        </label>
+        <input
+          type="text"
+          {...register("first_name", {
+            required: {
+              value: true,
+              message: "First Name is required",
+            },
+          })}
+          className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
+          placeholder="Your First Name"
+        />
+
+        {errors.first_name && (
+          <span className="text-red-500 text-xs">
+            {errors.first_name.message}
+          </span>
+        )}
+
+        <label htmlFor="last_name" className="text-slate-500 mb-2 block text-sm">
+          Last Name:
+        </label>
+        <input
+          type="text"
+          {...register("last_name", {
+            required: {
+              value: true,
+              message: "Last Name is required",
+            },
+          })}
+          className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
+          placeholder="Your Last Name"
+        />
+
+        {errors.last_name && (
+          <span className="text-red-500 text-xs">
+            {errors.last_name.message}
+          </span>
+        )}
+
         <label htmlFor="email" className="text-slate-500 mb-2 block text-sm">
           Email:
         </label>
