@@ -2,8 +2,19 @@
 
 function LoginPage() {
   const handleLogin = async () => {
+    // const email = document.getElementById("email").value;
+    const username = document.getElementById("username").value;
+    // const password = document.getElementById("password").value;
+    const password = document.getElementById("password").value;
+
     try {
-      const response = await fetch("/api/restaurantes");
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username: username, password: password }),
+      });
       const data = await response.json();
       console.log(data);
     } catch (error) {
@@ -13,54 +24,28 @@ function LoginPage() {
 
   return (
     <div className="h-[calc(100vh-7rem)] flex justify-center items-center">
-      {/* <form onSubmit={handleLogin} className="w-1/4">
-        {error && (
-          <p className="bg-red-500 text-lg text-white p-3 rounded mb-2">
-            {error}
-          </p>
-        )} */}
       <div className="w-1/4">
         <h1 className="text-slate-200 font-bold text-4xl mb-4">Login</h1>
 
-        <label htmlFor="email" className="text-slate-500 mb-2 block text-sm">
-          Email:
+        <label htmlFor="username" className="text-slate-500 mb-2 block text-sm">
+          Username:
         </label>
         <input
+          id="username"
           type="text"
-          // {...register("email", {
-          //   required: {
-          //     value: true,
-          //     message: "Email is required",
-          //   },
-          // })}
           className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
-          placeholder="user@email.com"
+          placeholder="username"
         />
-
-        {/* {errors.email && (
-          <span className="text-red-500 text-xs">{errors.email.message}</span>
-        )} */}
 
         <label htmlFor="password" className="text-slate-500 mb-2 block text-sm">
           Password:
         </label>
         <input
+          id="password"
           type="password"
-          // {...register("password", {
-          //   required: {
-          //     value: true,
-          //     message: "Password is required",
-          //   },
-          // })}
           className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
           placeholder="******"
         />
-
-        {/* {errors.password && (
-          <span className="text-red-500 text-xs">
-            {errors.password.message}
-          </span>
-        )} */}
 
         <button
           onClick={handleLogin}
@@ -69,8 +54,8 @@ function LoginPage() {
           Login
         </button>
       </div>
-      {/* </form> */}
     </div>
   );
 }
+
 export default LoginPage;
