@@ -1,20 +1,18 @@
-import Map from "@/componets/map";
+import { Suspense } from "react";
+import Loading from "./loading";
+import InfoCol from "@/componets/InfoCol";
+import Column from "@/componets/Column";
 
 export default function Page() {
-  const latitude = 19.693720;
-  const longitude = -101.182930;
+  const token = "e5e0eeb6f8a0d67b303bd3cb067c31d872280e5b";
+  // const token = "99a5cb763472faa3c2ccf8158731ca2e5e085b01";
 
   return (
     <div className="h-full w-full grid grid-cols-2 shadow-md rounded-sm text-black">
       <Column>
-        <div className="text-4xl font-semibold">Nombre</div>
-        <div className="text-xl text-justify">
-          Exercitation ea occaecat incididunt reprehenderit consectetur eu
-          excepteur excepteur magna. Aliquip enim mollit fugiat sunt minim.
-          Laboris velit esse ut do mollit officia ullamco ullamco.
-        </div>
-        <div className="text-2xl font-semibold">Ubicacion</div>
-        <Map latitude={latitude} longitude={longitude} />
+        {/* <Suspense fallback={<Loading />}> */}
+          <InfoCol propietario="nicolas" token={token} />
+        {/* </Suspense> */}
       </Column>
       <Column>
         <div className="text-2xl pt-2 font-semibold">Productos</div>
@@ -24,8 +22,8 @@ export default function Page() {
   );
 }
 
-function Column({ children }) {
-  return (
-    <div className="h-full w-full p-6 flex flex-col space-y-6">{children}</div>
-  );
-}
+// function Column({ children }) {
+//   return (
+//     <div className="h-full w-full p-6 flex flex-col space-y-6">{children}</div>
+//   );
+// }
