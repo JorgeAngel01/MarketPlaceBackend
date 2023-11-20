@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import EstadoButton from "./EstadoButton";
+import EditNombre from "./EditNombre";
 import EditPrecio from "./EditPrecio";
 import EditDescripcion from "./EditDescripcion";
 
@@ -54,7 +55,11 @@ export default function Producto({ producto }) {
     >
       {isExpanded ? (
         <div className="h-full w-full flex flex-col justify-between">
-          <div>{producto.nombre}</div>
+          <EditNombre
+            nombre={producto.nombre}
+            patch={patchProduct}
+            update={updateNombre}
+          />
           <div className="w-full flex flex-row justify-between">
             <div>Precio:</div>
             <EditPrecio
