@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-export default function EditPrecio({ precio, patch, update }) {
+export default function EditDescripcion({ descripcion, patch, update }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedPrecio, setEditedPrecio] = useState(precio);
+  const [editedDescripcion, setEditedDescripcion] = useState(descripcion);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleEdit = () => {
@@ -10,20 +10,20 @@ export default function EditPrecio({ precio, patch, update }) {
   };
 
   const handleInputChange = (e) => {
-    setEditedPrecio(e.target.value);
+    setEditedDescripcion(e.target.value);
   };
 
   const handleBlur = async () => {
     setIsLoading(true);
-    const dicPrecio = {
-      precio: editedPrecio,
+    const dicDescripcion = {
+      descripcion: editedDescripcion,
     };
     try {
-      await patch(dicPrecio);
-      update(editedPrecio);
+      await patch(dicDescripcion);
+      update(editedDescripcion);
     } catch (error) {
-      console.error("Error updating precio: ", error);
-      setEditedPrecio(precio)
+      console.error("Error updating descripcion: ", error);
+      setEditedDescripcion(descripcion)
     }
     setIsEditing(false);
     setIsLoading(false);
@@ -38,13 +38,13 @@ export default function EditPrecio({ precio, patch, update }) {
       {isEditing ? (
         <input
           type="text"
-          value={editedPrecio}
+          value={editedDescripcion}
           onChange={handleInputChange}
           onBlur={handleBlur}
           autoFocus
         />
       ) : (
-        <div onClick={handleEdit} className="cursor-pointer hover:scale-110" >$ {editedPrecio}</div>
+        <div onClick={handleEdit} className="text-justify cursor-pointer hover:scale-90" >{editedDescripcion}</div>
       )}
     </div>
   );

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import EstadoButton from "./EstadoButton";
 import EditPrecio from "./EditPrecio";
+import EditDescripcion from "./EditDescripcion";
 
 export default function Producto({ producto }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -23,6 +24,12 @@ export default function Producto({ producto }) {
       console.error("Error Patching Product: ", error);
     }
   };
+  const updateNombre = (newNombre) => {
+    producto.nombre = newNombre;
+  };
+  const updateDescripcion = (newDescripcion) => {
+    producto.descripcion = newDescripcion;
+  };
   const updateEstado = (newEstado) => {
     producto.estado = newEstado;
   };
@@ -33,7 +40,6 @@ export default function Producto({ producto }) {
   const handleMouseEnter = () => {
     setIsExpanded(true);
   };
-
   const handleMouseLeave = () => {
     setIsExpanded(false);
   };
@@ -66,7 +72,11 @@ export default function Producto({ producto }) {
             />
           </div>
           <div>Descripcion:</div>
-          <div className="text-justify">{producto.descripcion}</div>
+          <EditDescripcion
+            descripcion={producto.descripcion}
+            patch={patchProduct}
+            update={updateDescripcion}
+          />
         </div>
       ) : (
         <>
