@@ -11,29 +11,28 @@ export default function Producto({ producto }) {
   return (
     <div
       className={`w-full p-4 bg-yellow-500 rounded-lg flex flex-row justify-between items-center overflow-hidden ${
-        isExpanded ? "h-36" : "h-14"
+        isExpanded ? "h-48" : "h-14"
       } hover:scale-90 transition-all duration-100`}
       onClick={toggleExpand}
     >
       {isExpanded ? (
-        <>
-          <div className="h-full w-1/2 flex flex-col justify-between">
-            <Text text="Nombre:" />
-            <Text text="Precio:" />
-            <Text text="Estado:" />
-            <Text text="Descripcion:" />
+        <div className="h-full w-full flex flex-col justify-between">
+          <div>{producto.nombre}</div>
+          <div className="w-full flex flex-row justify-between">
+            <div>Precio:</div>
+            <div>$ {producto.precio}</div>
           </div>
-          <div className="h-full w-1/2 flex flex-col justify-between">
-            <Text text="Helado de Fresa" />
-            <Text text="$ 99.99" />
-            <Text text="Activo" />
-            <Text text="Variedad de frutas frescas de la temporada" />
+          <div className="w-full flex flex-row justify-between">
+            <div>Estado:</div>
+            <div>{producto.estado}</div>
           </div>
-        </>
+          <div>Descripcion:</div>
+          <div className="text-justify">{producto.descripcion}</div>
+        </div>
       ) : (
         <>
-          <div>Nombre</div>
-          <div>$ 99.99</div>
+          <div>{producto.nombre}</div>
+          <div>$ {producto.precio}</div>
         </>
       )}
     </div>

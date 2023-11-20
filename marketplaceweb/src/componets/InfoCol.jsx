@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Map from "./Map";
 
-export default function InfoCol({ propietario, token, tipo, onDataFetched }) {
+export default function InfoCol({ propietario, token, onDataFetched }) {
   const [businessData, setBusinessData] = useState();
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function InfoCol({ propietario, token, tipo, onDataFetched }) {
       <div className="text-xl text-justify">
         {businessData ? businessData.descripcion : "Cargando..."}
       </div>
-      {businessData && tipo === "restaurante" ? (
+      {businessData ? (
         <>
           <div className="space-y-2">
             <div className="text-2xl font-semibold">Ubicacion</div>

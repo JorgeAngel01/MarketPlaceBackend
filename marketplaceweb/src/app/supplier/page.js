@@ -16,7 +16,7 @@ export default function Page() {
   return (
     <div className="h-full w-full grid grid-cols-2 shadow-md rounded-sm text-black">
       <Column>
-        <InfoCol propietario="sofia" token={token} tipo="restaurante" onDataFetched={handleDataFetched} />
+        <InfoCol propietario="sofia" token={token} onDataFetched={handleDataFetched} />
       </Column>
       <Column>
         <div className="text-2xl pt-2 font-semibold">Productos</div>
