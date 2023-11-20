@@ -2,13 +2,13 @@
 import { useEffect, useState } from "react";
 import Map from "./Map";
 
-export default function InfoCol({ propietario, token }) {
+export default function InfoCol({ propietario, token, tipo }) {
   const [businessData, setBusinessData] = useState();
 
   useEffect(() => {
     const getRestaurante = async () => {
       try {
-        const response = await fetch("api/restaurante", {
+        const response = await fetch("api/busqueda/restaurante", {
           method: "GET",
           headers: {
             Authorization: `Token ${token}`,
@@ -35,30 +35,26 @@ export default function InfoCol({ propietario, token }) {
       <div className="text-xl text-justify">
         {businessData ? businessData.descripcion : "Cargando..."}
       </div>
-      {businessData ? (
-        businessData.latitud ? (
-          <>
-            <div className="space-y-2">
-              <div className="text-2xl font-semibold">Ubicacion</div>
-              <div className="grid grid-cols-2">
-                <div>
-                  <MidText text="Latitud:" />
-                  <MidText text="Longitud:" />
-                </div>
-                <div>
-                  <MidText text={businessData.latitud} />
-                  <MidText text={businessData.longitud} />
-                </div>
+      {businessData && tipo === "restaurante" ? (
+        <>
+          <div className="space-y-2">
+            <div className="text-2xl font-semibold">Ubicacion</div>
+            <div className="grid grid-cols-2">
+              <div>
+                <MidText text="Latitud:" />
+                <MidText text="Longitud:" />
+              </div>
+              <div>
+                <MidText text={businessData.latitud} />
+                <MidText text={businessData.longitud} />
               </div>
             </div>
-            <Map
-              latitude={businessData.latitud}
-              longitude={businessData.longitud}
-            />
-          </>
-        ) : (
-          "Cargando Ubicacion..."
-        )
+          </div>
+          <Map
+            latitude={businessData.latitud}
+            longitude={businessData.longitud}
+          />
+        </>
       ) : undefined}
     </>
   );
