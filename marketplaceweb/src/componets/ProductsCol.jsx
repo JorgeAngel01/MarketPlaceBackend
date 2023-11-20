@@ -30,8 +30,11 @@ export default function ProductCol({ id, token }) {
   return (
     <>
       <div className="text-2xl pt-2 font-semibold">Productos</div>
-      <div className="h-full w-full p-6 bg-white rounded-lg space-y-4">
-        <Producto />
+      <div className="h-full w-full p-6 bg-white rounded-lg space-y-4 overflow-y-scroll">
+        {productos &&
+          productos.map((producto) => (
+            <Producto key={producto.id} producto={producto} />
+          ))}
       </div>
     </>
   );
