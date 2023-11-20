@@ -34,33 +34,39 @@ function LoginPage() {
       });
       const keyGenerated = await response.json();
       console.log(keyGenerated);
+      if(keyGenerated.hasOwnProperty('token')){
+        localStorage.setItem('token', keyGenerated.token)
+        localStorage.setItem('username', data.username)
+        router.push('/dashboard')
+      }else{
+        setError(keyGenerated)
+      }
+
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
 
     router.refresh()
-    // const res = await signIn("credentials", {
-    //   email: data.email,
-    //   password: data.password,
-    //   redirect: false,
-    // });
-
-    //  console.log(res)
-    // if (res.error) {
-    //   setError(res.error)
-    // } else {
-    //   router.push('/dashboard')
-    //   router.refresh()
-    // }
-  });
+  }
+);
 
   return (
     <div className="h-[calc(100vh-7rem)] flex justify-center items-center">
       <form onSubmit={onSubmit} className="w-1/4">
 
-        {error && (
+        {/* {error && (
           <p className="bg-red-500 text-lg text-white p-3 rounded mb-2">{error}</p>
+        )} */}
+        {error && error.non_field_errors && error.non_field_errors.length > 0 && (
+          <div>
+            {error.non_field_errors.map((errorMessage, index) => (
+              <p key={index} className="bg-red-500 text-lg text-white p-3 rounded mb-2">
+                {errorMessage}
+              </p>
+            ))}
+          </div>
         )}
+
 
         <h1 className="text-slate-200 font-bold text-4xl mb-4">Login</h1>
 

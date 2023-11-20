@@ -9,24 +9,27 @@ function RegisterPage() {
     formState: { errors },
   } = useForm();
   const router = useRouter();
-
+  const [error, setError] = useState(null)
+  
   const onSubmit = handleSubmit(async (data) => {
     if (data.password !== data.confirmPassword) {
       return alert("Passwords do not match");
     }
 
-    const res = await fetch("/api/auth/register", {
+    const res = await fetch("/api/register", {
       method: "POST",
       body: JSON.stringify({
         username: data.username,
         email: data.email,
         password: data.password,
+        first_name: data.first_name,
+        last_name: data.last_name,
       }),
       headers: {
         "Content-Type": "application/json",
       },
     });
-
+    console.log("El response es", res)
     if (res.ok) {
       router.push("/auth/login");
     }
@@ -36,6 +39,9 @@ function RegisterPage() {
 
   return (
     <div className="h-[calc(100vh-7rem)] flex justify-center items-center">
+      {error && (
+          <p className="bg-red-500 text-lg text-white p-3 rounded mb-2">{error}</p>
+      )}
       <form onSubmit={onSubmit} className="w-1/4">
         <h1 className="text-slate-200 font-bold text-4xl mb-4">Register</h1>
 
