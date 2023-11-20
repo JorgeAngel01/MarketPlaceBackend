@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Map from "./Map";
 
-export default function InfoCol({ propietario, token, tipo }) {
+export default function InfoCol({ propietario, token, tipo, onDataFetched }) {
   const [businessData, setBusinessData] = useState();
 
   useEffect(() => {
@@ -17,6 +17,7 @@ export default function InfoCol({ propietario, token, tipo }) {
         });
         const data = await response.json();
         setBusinessData(data[0]);
+        onDataFetched(data[0].id)
         console.log(data);
         console.log(businessData);
       } catch (error) {
