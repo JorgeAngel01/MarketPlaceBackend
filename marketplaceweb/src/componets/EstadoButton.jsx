@@ -1,34 +1,38 @@
 import React, { useState } from "react";
 
-export default function EstadoButton() {
-  const [inStock, setInStock] = useState(true);
+export default function EstadoButton({ estado, patch, update }) {
+  const [inStock, setInStock] = useState(estado);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleClick = () => {
-    // Toggle the inStock state
+  const handleClick = async () => {
+    setIsLoading(true);
     setInStock(!inStock);
 
-    // Execute different functions based on the state
-    if (inStock) {
-      handleOutOfStock();
-    } else {
-      handleInStock();
+    try {
+      if (inStock) {
+        await patch({ estado: "2" });
+        update("2");
+      } else {
+        await patch({ estado: "1" });
+        update("1");
+      }
+    } catch (error) {
+      console.error("Error updating estado: ", error);
     }
+    setIsLoading(false);
   };
 
-  const handleInStock = () => {
-    console.log("Product is in stock");
-    // Implement in-stock logic here
-  };
-
-  const handleOutOfStock = () => {
-    console.log("Product is out of stock");
-    // Implement out-of-stock logic here
-  };
+  if (isLoading) {
+    return <div className="cursor-pointer">actualizando...</div>;
+  }
 
   return (
-    <div onClick={handleClick} style={{ cursor: "pointer" }}>
-      {inStock ? "En Stock" : "Agotado"}
+    <div onClick={handleClick} className="cursor-pointer hover:scale-110">
+      {inStock ? (
+        <div className="text-green-700">En Stock</div>
+      ) : (
+        <div className="text-red-700">Agotado</div>
+      )}
     </div>
   );
 }
-

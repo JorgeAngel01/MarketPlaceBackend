@@ -5,6 +5,27 @@ import EstadoButton from "./EstadoButton";
 export default function Producto({ producto }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const patchProduct = async (rawBody) => {
+    console.log("raw body", rawBody);
+    try {
+      const response = await fetch("api/productos", {
+        method: "PATCH",
+        headers: {
+          // Authorization: `Token ${token}`,
+          Id: producto.id,
+        },
+        body: JSON.stringify(rawBody),
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error Patching Product: ", error);
+    }
+  };
+  const updateEstado = (newEstado) => {
+    producto.estado = newEstado;
+  };
+
   const handleMouseEnter = () => {
     setIsExpanded(true);
   };
@@ -30,7 +51,11 @@ export default function Producto({ producto }) {
           </div>
           <div className="w-full flex flex-row justify-between">
             <div>Estado:</div>
-            <EstadoButton />
+            <EstadoButton
+              estado={producto.estado === "1" ? true : false}
+              patch={patchProduct}
+              update={updateEstado}
+            />
           </div>
           <div>Descripcion:</div>
           <div className="text-justify">{producto.descripcion}</div>
@@ -43,8 +68,4 @@ export default function Producto({ producto }) {
       )}
     </div>
   );
-}
-
-function Text({ text }) {
-  return <div className="h-6 overflow-hidden">{text}</div>;
 }
