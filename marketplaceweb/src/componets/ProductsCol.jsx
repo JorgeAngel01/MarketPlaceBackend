@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import Producto from "./Producto";
+import Producto from "./productos/Producto";
 
 export default function ProductCol({ id, token }) {
   const [productos, setProductos] = useState();

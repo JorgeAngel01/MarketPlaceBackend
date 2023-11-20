@@ -2,7 +2,7 @@
 import { useState } from "react";
 import InfoCol from "@/componets/InfoCol";
 import Column from "@/componets/Column";
-import Producto from "@/componets/Producto";
+import Producto from "@/componets/productos/Producto";
 
 export default function Page() {
   const token = "e5e0eeb6f8a0d67b303bd3cb067c31d872280e5b";

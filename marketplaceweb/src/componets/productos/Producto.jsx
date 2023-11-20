@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import EstadoButton from "./EstadoButton";
+import EditPrecio from "./EditPrecio";
 
 export default function Producto({ producto }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -25,6 +26,9 @@ export default function Producto({ producto }) {
   const updateEstado = (newEstado) => {
     producto.estado = newEstado;
   };
+  const updatePrecio = (newPrecio) => {
+    producto.precio = newPrecio;
+  };
 
   const handleMouseEnter = () => {
     setIsExpanded(true);
@@ -47,7 +51,11 @@ export default function Producto({ producto }) {
           <div>{producto.nombre}</div>
           <div className="w-full flex flex-row justify-between">
             <div>Precio:</div>
-            <div>$ {producto.precio}</div>
+            <EditPrecio
+              precio={producto.precio}
+              patch={patchProduct}
+              update={updatePrecio}
+            />
           </div>
           <div className="w-full flex flex-row justify-between">
             <div>Estado:</div>
