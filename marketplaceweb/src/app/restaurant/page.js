@@ -2,7 +2,7 @@
 import { useState } from "react";
 import InfoCol from "@/componets/InfoCol";
 import Column from "@/componets/Column";
-import Producto from "@/componets/Producto";
+import ProductCol from "@/componets/ProductsCol";
 
 export default function Page() {
   const token = "e5e0eeb6f8a0d67b303bd3cb067c31d872280e5b";
@@ -23,10 +23,16 @@ export default function Page() {
         />
       </Column>
       <Column>
-        <div className="text-2xl pt-2 font-semibold">Productos</div>
-        <div className="h-full w-full p-6 bg-white rounded-lg space-y-4">
-          {idRestaurante ? <Producto /> : "Cargando..."}
-        </div>
+        {idRestaurante ? (
+          <ProductCol />
+        ) : (
+          <>
+            <div className="text-2xl pt-2 font-semibold">Productos</div>
+            <div className="h-full w-full p-6 bg-white rounded-lg space-y-4">
+              Cargando...
+            </div>
+          </>
+        )}
       </Column>
     </div>
   );
