@@ -24,7 +24,7 @@ export default function Page() {
       </Column>
       <Column>
         {idRestaurante ? (
-          <ProductCol />
+          <ProductCol id={idRestaurante} token={token} />
         ) : (
           <>
             <div className="text-2xl pt-2 font-semibold">Productos</div>
