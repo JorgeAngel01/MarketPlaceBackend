@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import InfoCol from "@/componets/InfoCol";
+import InfoCol from "@/componets/info/InfoCol";
 import Column from "@/componets/Column";
 import ProductCol from "@/componets/ProductsCol";
 

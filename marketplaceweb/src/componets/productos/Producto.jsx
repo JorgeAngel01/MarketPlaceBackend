@@ -1,6 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import EstadoButton from "./EstadoButton";
+import EditNombre from "./EditNombre";
+import EditPrecio from "./EditPrecio";
+import EditDescripcion from "./EditDescripcion";
 
 export default function Producto({ producto }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -22,14 +25,22 @@ export default function Producto({ producto }) {
       console.error("Error Patching Product: ", error);
     }
   };
+  const updateNombre = (newNombre) => {
+    producto.nombre = newNombre;
+  };
+  const updateDescripcion = (newDescripcion) => {
+    producto.descripcion = newDescripcion;
+  };
   const updateEstado = (newEstado) => {
     producto.estado = newEstado;
+  };
+  const updatePrecio = (newPrecio) => {
+    producto.precio = newPrecio;
   };
 
   const handleMouseEnter = () => {
     setIsExpanded(true);
   };
-
   const handleMouseLeave = () => {
     setIsExpanded(false);
   };
@@ -44,10 +55,18 @@ export default function Producto({ producto }) {
     >
       {isExpanded ? (
         <div className="h-full w-full flex flex-col justify-between">
-          <div>{producto.nombre}</div>
+          <EditNombre
+            nombre={producto.nombre}
+            patch={patchProduct}
+            update={updateNombre}
+          />
           <div className="w-full flex flex-row justify-between">
             <div>Precio:</div>
-            <div>$ {producto.precio}</div>
+            <EditPrecio
+              precio={producto.precio}
+              patch={patchProduct}
+              update={updatePrecio}
+            />
           </div>
           <div className="w-full flex flex-row justify-between">
             <div>Estado:</div>
@@ -58,7 +77,11 @@ export default function Producto({ producto }) {
             />
           </div>
           <div>Descripcion:</div>
-          <div className="text-justify">{producto.descripcion}</div>
+          <EditDescripcion
+            descripcion={producto.descripcion}
+            patch={patchProduct}
+            update={updateDescripcion}
+          />
         </div>
       ) : (
         <>
