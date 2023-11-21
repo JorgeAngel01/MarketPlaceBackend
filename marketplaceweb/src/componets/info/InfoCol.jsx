@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Map from "../Map";
 import EditInfoNombre from "./EditInfoNombre";
+import EditInfoDesc from "./EditInfoDesc";
 
 export default function InfoCol({ propietario, token, onDataFetched }) {
   const [businessData, setBusinessData] = useState();
@@ -64,7 +65,15 @@ export default function InfoCol({ propietario, token, onDataFetched }) {
         )}
       </div>
       <div className="text-xl text-justify">
-        {businessData ? businessData.descripcion : "Cargando..."}
+        {businessData ? (
+          <EditInfoDesc
+            descripcion={businessData.descripcion}
+            patch={patchRestaurante}
+            reload={reloadPage}
+          />
+        ) : (
+          "Cargando..."
+        )}
       </div>
       {businessData ? (
         <>
