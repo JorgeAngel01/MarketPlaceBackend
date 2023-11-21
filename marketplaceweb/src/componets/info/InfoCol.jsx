@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Map from "../Map";
 import EditInfoNombre from "./EditInfoNombre";
 import EditInfoDesc from "./EditInfoDesc";
+import EditUbicacion from "./EditUbicacion";
 
 export default function InfoCol({ propietario, token, onDataFetched }) {
   const [businessData, setBusinessData] = useState();
@@ -85,8 +86,18 @@ export default function InfoCol({ propietario, token, onDataFetched }) {
                 <MidText text="Longitud:" />
               </div>
               <div>
-                <MidText text={businessData.latitud} />
-                <MidText text={businessData.longitud} />
+                <EditUbicacion
+                  ubicacion={businessData.latitud}
+                  patch={patchRestaurante}
+                  reload={reloadPage}
+                  tag="latitud"
+                />
+                <EditUbicacion
+                  ubicacion={businessData.longitud}
+                  patch={patchRestaurante}
+                  reload={reloadPage}
+                  tag="longitud"
+                />
               </div>
             </div>
           </div>
