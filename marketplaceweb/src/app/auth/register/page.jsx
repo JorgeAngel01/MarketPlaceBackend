@@ -1,6 +1,8 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import {useState} from 'react';
+import Link from 'next/link';
 
 function RegisterPage() {
   const {
@@ -38,7 +40,7 @@ function RegisterPage() {
   console.log(errors);
 
   return (
-    <div className="h-[calc(100vh-7rem)] flex justify-center items-center">
+    <div className="mt-7 flex justify-center items-center">
       {error && (
           <p className="bg-red-500 text-lg text-white p-3 rounded mb-2">{error}</p>
       )}
@@ -172,6 +174,13 @@ function RegisterPage() {
         <button className="w-full bg-blue-500 text-white p-3 rounded-lg mt-2">
           Register
         </button>
+
+        <div className="text-slate-500 mt-4">
+          Do you have an account?{' '}
+          <Link href="/auth/login">
+            <p className="text-blue-500">Log in</p>
+          </Link>
+        </div>
       </form>
     </div>
   );

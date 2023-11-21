@@ -1,16 +1,21 @@
 //LOGIN
 "use client";
-import { useForm } from "react-hook-form";
+import { useForm, Controller} from "react-hook-form";
 //import { signIn } from "next-auth/react";
 import {useRouter} from 'next/navigation'
-import {useState} from 'react'
+import {useState} from 'react';
+import Link from 'next/link';
+import Switch from 'react-switch'
 
 function LoginPage() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm();
+
+
   const router = useRouter()
   const [error, setError] = useState(null)
   const [respuestaDelServidor, setRespuestaDelServidor] = useState(null);
@@ -18,7 +23,8 @@ function LoginPage() {
   const onSubmit = handleSubmit(async (data) => {
     const datos = JSON.stringify({
       username: data.username,
-      password: data.password
+      password: data.password,
+      accountType: data.accountType
     })
 
     console.log(datos);
@@ -37,6 +43,7 @@ function LoginPage() {
       if(keyGenerated.hasOwnProperty('token')){
         localStorage.setItem('token', keyGenerated.token)
         localStorage.setItem('username', data.username)
+        localStorage.setItem('accountType', data.accountType === false ? "Restaurante" : "Proveedor")
         router.push('/dashboard')
       }else{
         setError(keyGenerated)
@@ -112,11 +119,43 @@ function LoginPage() {
           </span>
         )}
 
+        <label className="text-slate-500 mb-2 block text-sm">
+          Account Type:
+        </label>
+        <div className="flex items-center mb-2">
+            <span className="mr-2 text-slate-500">Restaurante</span>
+            <Controller
+              name="accountType"
+              control={control}
+              defaultValue={false} // Puedes ajustar esto según tu lógica predeterminada
+              render={({ field: { onChange, value } }) => (
+                <Switch
+                  onChange={(checked) => onChange(checked)}
+                  checked={value}
+                  onColor="#86d3ff"
+                  offColor="#dcdcdc"
+                  width={50}
+                  height={24}
+                  handleDiameter={20}
+                />
+              )}
+            />
+            <span className="ml-2 text-slate-500">Proveedor</span>
+          </div>
+
         <button className="w-full bg-blue-500 text-white p-3 rounded-lg mt-2">
           Login
         </button>
+        
+        <div className="text-slate-500 mt-4">
+          Don't have an account?{' '}
+          <Link href="/auth/register">
+            <p className="text-blue-500">Sign Up</p>
+          </Link>
+        </div>
+
       </form>
-    </div>
+        </div>
   );
 }
 export default LoginPage;
