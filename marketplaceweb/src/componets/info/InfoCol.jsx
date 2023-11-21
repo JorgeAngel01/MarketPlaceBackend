@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import Map from "./Map";
+import Map from "../Map";
+import EditInfoNombre from "./EditInfoNombre";
 
 export default function InfoCol({ propietario, token, onDataFetched }) {
   const [businessData, setBusinessData] = useState();
@@ -17,7 +18,7 @@ export default function InfoCol({ propietario, token, onDataFetched }) {
         });
         const data = await response.json();
         setBusinessData(data[0]);
-        onDataFetched(data[0].id)
+        onDataFetched(data[0].id);
         console.log(data);
         console.log(businessData);
       } catch (error) {
@@ -28,10 +29,39 @@ export default function InfoCol({ propietario, token, onDataFetched }) {
     getRestaurante();
   }, []);
 
+  const patchRestaurante = async (rawBody) => {
+    console.log("raw body", rawBody);
+    try {
+      const response = await fetch("api/restaurantes", {
+        method: "PATCH",
+        headers: {
+          // Authorization: `Token ${token}`,
+          Id: businessData.id,
+        },
+        body: JSON.stringify(rawBody),
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error Patching Product: ", error);
+    }
+  };
+  const reloadPage = () => {
+    window.location.reload();
+  };
+
   return (
     <>
       <div className="text-4xl font-semibold">
-        {businessData ? businessData.nombre : "Cargando..."}
+        {businessData ? (
+          <EditInfoNombre
+            nombre={businessData.nombre}
+            patch={patchRestaurante}
+            reload={reloadPage}
+          />
+        ) : (
+          "Cargando..."
+        )}
       </div>
       <div className="text-xl text-justify">
         {businessData ? businessData.descripcion : "Cargando..."}
