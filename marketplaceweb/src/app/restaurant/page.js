@@ -6,10 +6,9 @@ import ProductCol from "@/componets/ProductsCol";
 import AuthGuard from "../auth/authGuard/page";
 
 export default function Page() {
-  // const token = "e5e0eeb6f8a0d67b303bd3cb067c31d872280e5b";
     const token = localStorage.getItem("token")
     const propietarioName= localStorage.getItem("username")
-  // const token = "99a5cb763472faa3c2ccf8158731ca2e5e085b01";
+
   const [idRestaurante, setIdRestaurante] = useState();
 
   const handleDataFetched = (data) => {
@@ -21,7 +20,6 @@ export default function Page() {
       <div className="h-full w-full grid grid-cols-2 shadow-md rounded-sm text-black">
         <Column>
           <InfoCol
-            // propietario="sofia"
             propietario= {propietarioName}
             token={token}
             onDataFetched={handleDataFetched}
