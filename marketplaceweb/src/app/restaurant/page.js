@@ -17,7 +17,7 @@ export default function Page() {
 
   return (
     <AuthGuard>
-      <div className="h-screen w-full grid grid-cols-2 shadow-md rounded-sm text-black">
+      <div className="h-full w-full grid grid-cols-2 shadow-md rounded-sm text-black">
         <Column>
           <InfoCol
             propietario= {propietarioName}

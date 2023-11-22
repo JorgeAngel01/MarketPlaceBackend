@@ -9,9 +9,11 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const className = `h-screen overflow-hiden ${inter.className}`
+
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={className}>{children}</body>
     </html>
   );
 }

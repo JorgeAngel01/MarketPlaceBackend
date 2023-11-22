@@ -21,7 +21,7 @@ function DashboardPage() {
 
   return (
     <AuthGuard>
-      <nav className="bg-gray-800 p-4">
+      <nav className="">
         <div className="container mx-auto flex justify-between items-center">
           
             <p className="text-white text-2xl font-bold">
