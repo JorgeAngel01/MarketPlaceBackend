@@ -47,7 +47,7 @@ export default function Producto({ producto }) {
 
   return (
     <div
-      className={`w-full p-4 bg-yellow-500 rounded-lg flex flex-row justify-between items-center overflow-hidden ${
+      className={`scale-up-animation w-full p-4 bg-yellow-500 rounded-lg flex flex-row justify-between items-center overflow-hidden ${
         isExpanded ? "h-48" : "h-14"
       } transition-all duration-100`}
       onMouseEnter={handleMouseEnter}
