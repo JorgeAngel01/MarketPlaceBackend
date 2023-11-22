@@ -14,6 +14,10 @@ export default function EditUbicacion({ ubicacion, patch, reload, tag }) {
   };
 
   const handleBlur = async () => {
+    if (editedUbicacion === ubicacion) {
+      setIsEditing(false);
+      return null;
+    }
     setIsLoading(true);
     const dicUbicacion = {
       [tag]: editedUbicacion,
