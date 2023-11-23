@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export async function GET() {
   try {
-    const response = await fetch("http://127.0.0.1:8000/proveedores/", {
+    const response = await fetch(`${API_URL}/proveedores/`, {
       method: "GET",
     });
     const data = await response.json();
@@ -33,7 +35,7 @@ export async function PATCH(request) {
   console.log("request", requestBody);
   try {
     const response = await fetch(
-      `http://127.0.0.1:8000/proveedores/${idHeader}/`,
+      `${API_URL}/proveedores/${idHeader}/`,
       {
         method: "PATCH",
         headers: {
