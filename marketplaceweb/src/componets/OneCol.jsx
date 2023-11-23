@@ -9,6 +9,22 @@ export default function OneCol({ propietario, token }) {
   const [businessData, setBusinessData] = useState();
   const [productos, setProductos] = useState();
 
+  const getProductos = async (id) => {
+    try {
+      const response = await fetch("api/busqueda/productos_prov", {
+        method: "GET",
+        headers: {
+          Authorization: `Token ${token}`,
+          Id: id,
+        },
+      });
+      const data = await response.json();
+      setProductos(data);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  };
+
   useEffect(() => {
     const getProveedor = async () => {
       try {
@@ -21,35 +37,30 @@ export default function OneCol({ propietario, token }) {
         });
         const data = await response.json();
         setBusinessData(data[0]);
-        console.log(data);
-        return data[0]; // Return the fetched data
+        getProductos(data[0].id); // Call getProductos here
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
     };
-  
-    const getProductos = async (id) => {
-      try {
-        const response = await fetch("api/busqueda/productos_prov", {
-          method: "GET",
-          headers: {
-            Authorization: `Token ${token}`,
-            Id: id,
-          },
-        });
-        const data = await response.json();
-        setProductos(data);
-        console.log(data);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    };
-  
-    getProveedor().then((businessData) => {
-      if (businessData) getProductos(businessData.id);
-    });
-  }, []);
-  
+
+    getProveedor();
+  }, [propietario, token]); // Added dependencies
+
+  const createProduct = async (rawBody) => {
+    try {
+      const response = await fetch("api/productos", {
+        method: "POST",
+        headers: {
+          // Authorization: `Token ${token}`,
+        },
+        body: JSON.stringify(rawBody),
+      });
+      const data = await response.json();
+      getProductos(businessData.id); // Call getProductos again to update the list
+    } catch (error) {
+      console.error("Error Creating Product: ", error);
+    }
+  };
 
   const patchProveedor = async (rawBody) => {
     console.log("raw body", rawBody);
@@ -66,24 +77,6 @@ export default function OneCol({ propietario, token }) {
       console.log(data);
     } catch (error) {
       console.error("Error Patching Product: ", error);
-    }
-  };
-
-  const createProduct = async (rawBody) => {
-    console.log("raw body", rawBody);
-    try {
-      const response = await fetch("api/productos", {
-        method: "POST",
-        headers: {
-          // Authorization: `Token ${token}`,
-        },
-        body: JSON.stringify(rawBody),
-      });
-      const data = await response.json();
-      console.log(data);
-      setProductos([...productos, rawBody]);
-    } catch (error) {
-      console.error("Error Creating Product: ", error);
     }
   };
 
