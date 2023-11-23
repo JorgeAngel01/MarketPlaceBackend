@@ -4,10 +4,10 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function GET(request) {
   const authHeader = request.headers.get("Authorization");
-  const nameHeader = request.headers.get("Username");
+  const idHeader = request.headers.get("Id");
   try {
     const response = await fetch(
-      `${API_URL}/restaurante/${nameHeader}`,
+      `${API_URL}/productos_proveedor/${idHeader}`,
       {
         method: "GET",
         headers: {

@@ -1,11 +1,14 @@
 import { NextResponse } from "next/server";
 
-export async function GET() {
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+export async function GET(request) {
+  const authHeader = request.headers.get("Authorization");
   try {
-    const response = await fetch("http://127.0.0.1:8000/usuarios/", {
+    const response = await fetch(`${API_URL}/usuarios/`, {
       method: "GET",
       headers: {
-        "Authorization": "e5e0eeb6f8a0d67b303bd3cb067c31d872280e5b",
+        Authorization: authHeader,
       }
     });
     const data = await response.json();
