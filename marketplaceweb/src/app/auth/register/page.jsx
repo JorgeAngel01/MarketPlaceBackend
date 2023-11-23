@@ -1,17 +1,23 @@
 "use client";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import Link from 'next/link';
+import Switch from 'react-switch'
+import ProveedorForm from "@/componets/register/ProveedorForm";
+import RestauranteForm from "@/componets/register/RestauranteForm";
+
 
 function RegisterPage() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm();
   const router = useRouter();
   const [error, setError] = useState(null)
+  const [typeUser, setTypeUser] = useState(true)
   
   const onSubmit = handleSubmit(async (data) => {
     if (data.password !== data.confirmPassword) {
@@ -44,10 +50,12 @@ function RegisterPage() {
       {error && (
           <p className="bg-red-500 text-lg text-white p-3 rounded mb-2">{error}</p>
       )}
-      <form onSubmit={onSubmit} className="w-1/4">
+      <form onSubmit={onSubmit} className="w-2/5">
         <h1 className="text-slate-200 font-bold text-4xl mb-4">Register</h1>
 
-        <label htmlFor="username" className="text-slate-500 mb-2 block text-sm">
+        <div className="flex">
+        <div className="w-1/2">
+       <label htmlFor="username" className="text-slate-500 mb-2 block text-sm">
           Username:
         </label>
         <input
@@ -170,6 +178,41 @@ function RegisterPage() {
             {errors.confirmPassword.message}
           </span>
         )}
+       </div>
+      <div className="w-1/2 ml-5">
+        <label className="text-slate-500 mb-2 block text-sm">
+          Account Type:
+        </label>
+        <div className="flex items-center mb-2">
+            <span className="mr-2 text-slate-500">Restaurante</span>
+            <Controller
+              name="accountType"
+              control={control}
+              defaultValue={true} // Puedes ajustar esto según tu lógica predeterminada
+              render={({ field: { onChange, value } }) =>{
+                setTypeUser(value)
+
+                return(
+                  <Switch
+                    onChange={(checked) => onChange(checked)}
+                    checked={value}
+                    onColor="#86d3ff"
+                    offColor="#dcdcdc"
+                    width={50}
+                    height={24}
+                    handleDiameter={20}
+                  />
+                )
+              }}
+            />
+              <span className="ml-2 text-slate-500">Proveedor</span>
+            </div>
+            <br />
+          <ProveedorForm register={register} errors={errors}/>
+          
+          {typeUser === false ? <RestauranteForm register={register} errors={errors}/> : null}
+      </div>
+      </div>
 
         <button className="w-full bg-blue-500 text-white p-3 rounded-lg mt-2">
           Register
