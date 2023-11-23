@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export async function POST(request) {
   const requestBody = await request.json();
   console.log("request", requestBody)
   try {
     const response = await fetch(
-      "http://127.0.0.1:8000/productos/",
+      `${API_URL}/productos/`,
       {
         method: "POST",
         headers: {
@@ -44,7 +46,7 @@ export async function PATCH(request) {
   console.log("request", requestBody)
   try {
     const response = await fetch(
-      `http://127.0.0.1:8000/productos/${idHeader}/`,
+      `${API_URL}/productos/${idHeader}/`,
       {
         method: "PATCH",
         headers: {
@@ -57,7 +59,6 @@ export async function PATCH(request) {
     const data = await response.json();
     console.log(data);
 
-    // Return the updated data as a response
     return new NextResponse(JSON.stringify(data), {
       status: 200,
       headers: {

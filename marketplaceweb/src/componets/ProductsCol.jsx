@@ -48,7 +48,7 @@ export default function ProductCol({ id, token }) {
         <div className="text-2xl pt-2 font-semibold">Productos</div>
         <CreateButton tag="restaurantes" id={id} onClick={createProduct} />
       </div>
-      <div className="h-full w-full p-6 bg-white rounded-lg space-y-4 overflow-y-scroll">
+      <div className="h-full w-full p-6 bg-white rounded-lg space-y-4 overflow-y-scroll snap-y">
         {productos &&
           productos.map((producto) => (
             <Producto key={producto.id} producto={producto} />

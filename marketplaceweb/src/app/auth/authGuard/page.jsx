@@ -8,16 +8,16 @@ const AuthGuard = ({ children }) => {
   useEffect(() => {
     // Verificar si la variable está presente en localStorage al cargar el componente
     const token = localStorage.getItem("token");
-    const username = localStorage.getItem("username")
-    const accountType= localStorage.getItem("accountType")
-    console.log(token)
+    const username = localStorage.getItem("username");
+    const accountType = localStorage.getItem("accountType");
+    console.log(token);
     if (!token || !username || !accountType) {
       router.push("/auth/login");
-    }else{
-      try{
+    } else {
+      try {
         // router.push("/restaurant")
-        router.push("/dashboard")
-      }catch(error){
+        router.push("/dashboard");
+      } catch (error) {
         console.error("Error fetching data: ", error);
       }
     }

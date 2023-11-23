@@ -1,11 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function POST(request) {
   try {
-    // Parse the incoming request to get the body
     const body = await request.json();
 
-    const response = await fetch("http://127.0.0.1:8000/login/", {
+    const response = await fetch(`${API_URL}/login/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
