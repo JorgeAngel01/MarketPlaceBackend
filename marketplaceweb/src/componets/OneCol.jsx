@@ -126,7 +126,7 @@ export default function OneCol({ propietario, token }) {
                 onClick={createProduct}
               />
             </div>
-            <div className="h-full w-full p-6 bg-white rounded-lg space-y-4 overflow-y-scroll">
+            <div className="h-full w-full p-6 bg-white rounded-lg space-y-4 overflow-y-scroll snap-y">
               {productos &&
                 productos.map((producto) => (
                   <Producto key={producto.id} producto={producto} />
