@@ -32,16 +32,11 @@ function DashboardPage() {
     router.push("/auth/login");
   };
 
-  const renderContent = () => {
-    switch (accountType) {
-      case "Restaurante":
-        return <Restaurant />;
-      case "Proveedor":
-        return <Supplier />;
-      default:
-        return "Pagina no encontrada";
-    }
-  };
+  const renderContent = () => (
+    accountType === "Restaurante" ? <Restaurant /> :
+    accountType === "Proveedor" ? <Supplier /> :
+    "Pagina no encontrada"
+  );
 
   return (
     <AuthGuard>

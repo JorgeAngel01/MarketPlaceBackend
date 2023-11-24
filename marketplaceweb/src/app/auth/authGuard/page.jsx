@@ -15,8 +15,7 @@ const AuthGuard = ({ children }) => {
       router.push("/auth/login");
     } else {
       try {
-        // router.push("/restaurant")
-        router.push("/dashboard");
+        router.push("/");
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
