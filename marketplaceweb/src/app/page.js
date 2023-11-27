@@ -40,7 +40,7 @@ export default function Home() {
   return (
     <AuthGuard>
       <main className="flex flex-col items-center justify-between p-24">
-        <nav className="bg-black p-2">
+        <nav className="bg-black p-2 w-full">
           <div className="container mx-auto flex justify-between items-center">
             <p className="text-white text-2xl font-bold">{accountType}</p>
             <button
