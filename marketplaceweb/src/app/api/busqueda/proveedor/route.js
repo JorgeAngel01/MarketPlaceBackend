@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export async function GET(request) {
   const authHeader = request.headers.get("Authorization");
   const nameHeader = request.headers.get("Username");
   try {
     const response = await fetch(
-      `http://127.0.0.1:8000/proveedor/${nameHeader}`,
+      `${API_URL}/proveedor/${nameHeader}`,
       {
         method: "GET",
         headers: {

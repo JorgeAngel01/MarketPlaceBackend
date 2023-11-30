@@ -9,9 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "next": "14.0.2",
+    "next-auth": "^4.24.5",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.0.2"
+    "react-hook-form": "^7.48.2",
+    "react-switch": "^7.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",

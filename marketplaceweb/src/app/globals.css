@@ -25,3 +25,16 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+@keyframes scale-up {
+  from {
+    transform: scale(0.1);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.scale-up-animation {
+  animation: scale-up 0.2s ease-in-out forwards;
+}

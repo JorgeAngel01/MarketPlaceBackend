@@ -1,6 +1,8 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import {useState} from 'react';
+import Link from 'next/link';
 
 function RegisterPage() {
   const {
@@ -9,24 +11,27 @@ function RegisterPage() {
     formState: { errors },
   } = useForm();
   const router = useRouter();
-
+  const [error, setError] = useState(null)
+  
   const onSubmit = handleSubmit(async (data) => {
     if (data.password !== data.confirmPassword) {
       return alert("Passwords do not match");
     }
 
-    const res = await fetch("/api/auth/register", {
+    const res = await fetch("/api/register", {
       method: "POST",
       body: JSON.stringify({
         username: data.username,
         email: data.email,
         password: data.password,
+        first_name: data.first_name,
+        last_name: data.last_name,
       }),
       headers: {
         "Content-Type": "application/json",
       },
     });
-
+    console.log("El response es", res)
     if (res.ok) {
       router.push("/auth/login");
     }
@@ -35,7 +40,10 @@ function RegisterPage() {
   console.log(errors);
 
   return (
-    <div className="h-[calc(100vh-7rem)] flex justify-center items-center">
+    <div className="mt-7 flex justify-center items-center">
+      {error && (
+          <p className="bg-red-500 text-lg text-white p-3 rounded mb-2">{error}</p>
+      )}
       <form onSubmit={onSubmit} className="w-1/4">
         <h1 className="text-slate-200 font-bold text-4xl mb-4">Register</h1>
 
@@ -57,6 +65,48 @@ function RegisterPage() {
         {errors.username && (
           <span className="text-red-500 text-xs">
             {errors.username.message}
+          </span>
+        )}
+
+        <label htmlFor="first_name" className="text-slate-500 mb-2 block text-sm">
+          First Name:
+        </label>
+        <input
+          type="text"
+          {...register("first_name", {
+            required: {
+              value: true,
+              message: "First Name is required",
+            },
+          })}
+          className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
+          placeholder="Your First Name"
+        />
+
+        {errors.first_name && (
+          <span className="text-red-500 text-xs">
+            {errors.first_name.message}
+          </span>
+        )}
+
+        <label htmlFor="last_name" className="text-slate-500 mb-2 block text-sm">
+          Last Name:
+        </label>
+        <input
+          type="text"
+          {...register("last_name", {
+            required: {
+              value: true,
+              message: "Last Name is required",
+            },
+          })}
+          className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
+          placeholder="Your Last Name"
+        />
+
+        {errors.last_name && (
+          <span className="text-red-500 text-xs">
+            {errors.last_name.message}
           </span>
         )}
 
@@ -124,6 +174,13 @@ function RegisterPage() {
         <button className="w-full bg-blue-500 text-white p-3 rounded-lg mt-2">
           Register
         </button>
+
+        <div className="text-slate-500 mt-4">
+          Do you have an account?{' '}
+          <Link href="/auth/login">
+            <p className="text-blue-500">Log in</p>
+          </Link>
+        </div>
       </form>
     </div>
   );

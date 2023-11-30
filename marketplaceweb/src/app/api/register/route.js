@@ -1,12 +1,13 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function POST(request) {
   try {
     const body = await request.json();
+    console.log("info del body", body)
 
-    const response = await fetch(`${API_URL}/login/`, {
+    const response = await fetch(`${API_URL}/registro/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -14,6 +15,9 @@ export async function POST(request) {
       body: JSON.stringify({
         username: body.username,
         password: body.password,
+        first_name: body.first_name,
+        last_name: body.last_name,
+        email: body.email,
       }),
     });
 
