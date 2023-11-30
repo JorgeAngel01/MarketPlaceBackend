@@ -4,6 +4,7 @@ import EditInfoNombre from "./info/EditInfoNombre";
 import EditInfoDesc from "./info/EditInfoDesc";
 import Producto from "./productos/Producto";
 import CreateButton from "./CreateButton";
+import EditImage from "./info/EditImage";
 
 export default function OneCol({ propietario, token }) {
   const [businessData, setBusinessData] = useState();
@@ -108,6 +109,16 @@ export default function OneCol({ propietario, token }) {
           "Cargando..."
         )}
       </div>
+      {businessData ? (
+        <EditImage
+          imageUrl={businessData.banner}
+          patch={patchProveedor}
+          reload={reloadPage}
+          field="banner"
+        />
+      ) : (
+        "Cargando..."
+      )}
       <>
         {productos ? (
           <>

@@ -4,6 +4,7 @@ import EstadoButton from "./EstadoButton";
 import EditNombre from "./EditNombre";
 import EditPrecio from "./EditPrecio";
 import EditDescripcion from "./EditDescripcion";
+import EditImage from "../info/EditImage";
 
 export default function Producto({ producto }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -48,7 +49,7 @@ export default function Producto({ producto }) {
   return (
     <div
       className={`scale-up-animation w-full p-4 bg-yellow-500 rounded-lg flex flex-row justify-between items-center overflow-hidden hover:snap-end ${
-        isExpanded ? "h-48" : "h-14"
+        isExpanded ? "h-60" : "h-14"
       } transition-all duration-100`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -77,11 +78,22 @@ export default function Producto({ producto }) {
             />
           </div>
           <div>Descripcion:</div>
-          <EditDescripcion
-            descripcion={producto.descripcion}
-            patch={patchProduct}
-            update={updateDescripcion}
-          />
+          <div className="grid grid-cols-3 items-center">
+            <div className="col-span-2 pr-5">
+              <EditDescripcion
+                descripcion={producto.descripcion}
+                patch={patchProduct}
+                update={updateDescripcion}
+              />
+            </div>
+            <div className="col-span-1">
+              <EditImage
+                imageUrl={producto.image}
+                patch={patchProduct}
+                field="image"
+              />
+            </div>
+          </div>
         </div>
       ) : (
         <>

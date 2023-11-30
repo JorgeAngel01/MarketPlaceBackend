@@ -4,6 +4,7 @@ import Map from "../Map";
 import EditInfoNombre from "./EditInfoNombre";
 import EditInfoDesc from "./EditInfoDesc";
 import EditUbicacion from "./EditUbicacion";
+import EditImage from "./EditImage";
 
 export default function InfoCol({ propietario, token, onDataFetched }) {
   const [businessData, setBusinessData] = useState();
@@ -76,6 +77,16 @@ export default function InfoCol({ propietario, token, onDataFetched }) {
           "Cargando..."
         )}
       </div>
+      {businessData ? (
+        <EditImage
+          imageUrl={businessData?.banner}
+          patch={patchRestaurante}
+          reload={reloadPage}
+          field="banner"
+        />
+      ) : (
+        "Cargando..."
+      )}
       {businessData ? (
         <>
           <div className="space-y-2">
