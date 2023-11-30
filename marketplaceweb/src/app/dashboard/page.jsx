@@ -32,20 +32,15 @@ function DashboardPage() {
     router.push("/auth/login");
   };
 
-  const renderContent = () => {
-    switch (accountType) {
-      case "Restaurante":
-        return <Restaurant />;
-      case "Proveedor":
-        return <Supplier />;
-      default:
-        return "Pagina no encontrada";
-    }
-  };
+  const renderContent = () => (
+    accountType === "Restaurante" ? <Restaurant /> :
+    accountType === "Proveedor" ? <Supplier /> :
+    "Pagina no encontrada"
+  );
 
   return (
     <AuthGuard>
-      <nav className="">
+      <nav className="bg-black p-2">
         <div className="container mx-auto flex justify-between items-center">
           <p className="text-white text-2xl font-bold">{accountType}</p>
           <button

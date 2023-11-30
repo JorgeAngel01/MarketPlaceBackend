@@ -1,7 +1,6 @@
 //LOGIN
 "use client";
 import { useForm, Controller} from "react-hook-form";
-//import { signIn } from "next-auth/react";
 import {useRouter} from 'next/navigation'
 import {useState} from 'react';
 import Link from 'next/link';
@@ -35,16 +34,32 @@ function LoginPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        //body: JSON.stringify({ username: data.email, password: data.password}),
         body: datos,
       });
       const keyGenerated = await response.json();
       console.log(keyGenerated);
       if(keyGenerated.hasOwnProperty('token')){
-        localStorage.setItem('token', keyGenerated.token)
-        localStorage.setItem('username', data.username)
-        localStorage.setItem('accountType', data.accountType === false ? "Restaurante" : "Proveedor")
-        router.push('/dashboard')
+        const userTypeFetch= await fetch("/api/userType",{
+          method: "GET",
+          headers:{
+            Authorization: `Token ${keyGenerated.token}`,
+            Name: data.username,
+          }
+        })
+
+        const userTypeResponse = await userTypeFetch.json()
+        if(userTypeResponse.hasOwnProperty('tipo') && userTypeResponse.tipo != "nothing"){
+          userTypeResponse.tipo === "restaurante" ? localStorage.setItem('accountType', "Restaurante") :
+          userTypeResponse.tipo === "proveedor" ? localStorage.setItem('accountType', "Proveedor") : 
+          setError({ non_field_errors: [ 'Unable to log in with provided credentials.' ] })
+
+          localStorage.setItem('token', keyGenerated.token)
+          localStorage.setItem('username', data.username)
+
+          router.push('/')
+        }else
+          setError({ non_field_errors: [ 'Unable to log in with provided credentials.' ] })
+          
       }else{
         setError(keyGenerated)
       }
@@ -52,8 +67,6 @@ function LoginPage() {
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
-
-    router.refresh()
   }
 );
 
@@ -119,31 +132,7 @@ function LoginPage() {
           </span>
         )}
 
-        <label className="text-slate-500 mb-2 block text-sm">
-          Account Type:
-        </label>
-        <div className="flex items-center mb-2">
-            <span className="mr-2 text-slate-500">Restaurante</span>
-            <Controller
-              name="accountType"
-              control={control}
-              defaultValue={false} // Puedes ajustar esto según tu lógica predeterminada
-              render={({ field: { onChange, value } }) => (
-                <Switch
-                  onChange={(checked) => onChange(checked)}
-                  checked={value}
-                  onColor="#86d3ff"
-                  offColor="#dcdcdc"
-                  width={50}
-                  height={24}
-                  handleDiameter={20}
-                />
-              )}
-            />
-            <span className="ml-2 text-slate-500">Proveedor</span>
-          </div>
-
-        <button className="w-full bg-blue-500 text-white p-3 rounded-lg mt-2">
+        <button className="w-full bg-blue-500 text-white p-3 rounded-lg mt-4">
           Login
         </button>
         
