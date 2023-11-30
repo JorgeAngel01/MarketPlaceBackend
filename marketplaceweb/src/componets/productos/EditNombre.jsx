@@ -42,6 +42,7 @@ export default function EditNombre({ nombre, patch, update }) {
           onChange={handleInputChange}
           onBlur={handleBlur}
           autoFocus
+          maxLength={50}
         />
       ) : (
         <div

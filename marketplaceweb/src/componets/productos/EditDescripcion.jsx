@@ -42,6 +42,7 @@ export default function EditDescripcion({ descripcion, patch, update }) {
           onChange={handleInputChange}
           onBlur={handleBlur}
           autoFocus
+          maxLength={100}
         />
       ) : (
         <div onClick={handleEdit} className="text-justify cursor-pointer hover:scale-90" >{editedDescripcion}</div>
