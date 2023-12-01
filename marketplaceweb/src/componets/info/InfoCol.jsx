@@ -1,8 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Map from "../Map";
-import EditInfoNombre from "./EditInfoNombre";
-import EditInfoDesc from "./EditInfoDesc";
+import EditableText from "../EditableText";
 import EditUbicacion from "./EditUbicacion";
 import EditImage from "./EditImage";
 
@@ -57,10 +56,11 @@ export default function InfoCol({ propietario, token, onDataFetched }) {
     <>
       <div className="text-4xl font-semibold">
         {businessData ? (
-          <EditInfoNombre
-            nombre={businessData.nombre}
+          <EditableText
+            text={businessData.nombre}
+            field="nombre"
             patch={patchRestaurante}
-            reload={reloadPage}
+            maxLength={30}
           />
         ) : (
           "Cargando..."
@@ -68,25 +68,28 @@ export default function InfoCol({ propietario, token, onDataFetched }) {
       </div>
       <div className="text-xl text-justify">
         {businessData ? (
-          <EditInfoDesc
-            descripcion={businessData.descripcion}
+          <EditableText
+            text={businessData.descripcion}
+            field="descripcion"
             patch={patchRestaurante}
-            reload={reloadPage}
+            maxLength={100}
           />
         ) : (
           "Cargando..."
         )}
       </div>
-      {businessData ? (
-        <EditImage
-          imageUrl={businessData?.banner}
-          patch={patchRestaurante}
-          reload={reloadPage}
-          field="banner"
-        />
-      ) : (
-        "Cargando..."
-      )}
+      <div className="h-1/6">
+        {businessData ? (
+          <EditImage
+            imageUrl={businessData.banner}
+            patch={patchRestaurante}
+            reload={reloadPage}
+            field="banner"
+          />
+        ) : (
+          "Cargando..."
+        )}
+      </div>
       {businessData ? (
         <>
           <div className="space-y-2">

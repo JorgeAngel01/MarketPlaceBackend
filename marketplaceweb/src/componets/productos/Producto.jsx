@@ -1,9 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import EstadoButton from "./EstadoButton";
-import EditNombre from "./EditNombre";
-import EditPrecio from "./EditPrecio";
-import EditDescripcion from "./EditDescripcion";
+import EditableText from "../EditableText";
 import EditImage from "../info/EditImage";
 
 export default function Producto({ producto }) {
@@ -56,18 +54,25 @@ export default function Producto({ producto }) {
     >
       {isExpanded ? (
         <div className="h-full w-full flex flex-col justify-between">
-          <EditNombre
-            nombre={producto.nombre}
+          <EditableText
+            text={producto.nombre}
+            field="nombre"
             patch={patchProduct}
+            maxLength={30}
             update={updateNombre}
           />
           <div className="w-full flex flex-row justify-between">
             <div>Precio:</div>
-            <EditPrecio
-              precio={producto.precio}
-              patch={patchProduct}
-              update={updatePrecio}
-            />
+            <div className="flex flex-row">
+              $
+              <EditableText
+                text={producto.precio}
+                field="precio"
+                patch={patchProduct}
+                maxLength={10}
+                update={updatePrecio}
+              />
+            </div>
           </div>
           <div className="w-full flex flex-row justify-between">
             <div>Estado:</div>
@@ -80,18 +85,20 @@ export default function Producto({ producto }) {
           <div>Descripcion:</div>
           <div className="grid grid-cols-3 items-center">
             <div className="col-span-2 pr-5">
-              <EditDescripcion
-                descripcion={producto.descripcion}
+              <EditableText
+                text={producto.descripcion}
+                field="precio"
                 patch={patchProduct}
+                maxLength={50}
                 update={updateDescripcion}
               />
             </div>
             <div className="col-span-1">
-              <EditImage
+              {/* <EditImage
                 imageUrl={producto.image}
                 patch={patchProduct}
                 field="image"
-              />
+              /> */}
             </div>
           </div>
         </div>
