@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import Producto from "./productos/Producto";
 import CreateButton from "./CreateButton";
 
-export default function ProductCol({ id, token }) {
+export default function ProductCol({ id, token, type }) {
   const [productos, setProductos] = useState();
 
   const getProductos = async () => {
     try {
-      const response = await fetch("api/busqueda/productos_rest", {
+      const response = await fetch(`api/busqueda/productos_${type}`, {
         method: "GET",
         headers: {
           Authorization: `Token ${token}`,
