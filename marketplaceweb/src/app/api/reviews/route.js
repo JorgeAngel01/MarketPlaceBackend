@@ -4,10 +4,11 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function GET(request) {
   try {
+    const authHeader = request.headers.get("Authorization");
     const username = request.headers.get("username");
-    const idRestaurante = request.headers.get("idRestaurante");
-    const idProveedor = request.headers.get("idProveedor");
-    const idProducto = request.headers.get("idProducto");
+    const idRestaurante = request.headers.get("Restaurante");
+    const idProveedor = request.headers.get("Proveedor");
+    const idProducto = request.headers.get("Producto");
 
     let url = `${API_URL}/reviews/`;
 
@@ -18,6 +19,9 @@ export async function GET(request) {
 
     const response = await fetch(url, {
       method: "GET",
+      headers: {
+        Authorization: authHeader,
+      },
     });
     const data = await response.json();
     console.log(data);

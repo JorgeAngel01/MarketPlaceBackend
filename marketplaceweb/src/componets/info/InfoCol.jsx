@@ -84,7 +84,7 @@ export default function InfoCol({ propietario, token, onDataFetched }) {
         {/* <div>{businessData.promedio_calific}</div> */}
         {businessData ? (
           <ReviewsModal
-            query="restaurante"
+            query="Restaurante"
             value={businessData.id}
             score={businessData.promedio_calific}
             title="Reviews Restaurante"

@@ -58,7 +58,7 @@ export default function ReviewsModal({ query, value, btnText, title, score }) {
                 {title}
               </ModalHeader>
               <ModalBody>
-                {fetchedReviews &&
+                {fetchedReviews.length > 0 &&
                   fetchedReviews.map((review) => (
                     <ReviewCard key={review.id} review={review} />
                   ))}

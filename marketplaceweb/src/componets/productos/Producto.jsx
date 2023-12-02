@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import EstadoButton from "./EstadoButton";
 import EditableText from "../EditableText";
 import EditImage from "../info/EditImage";
+import ReviewsModal from "../ReviewsModal";
+import { Button, Skeleton } from "@nextui-org/react";
 
 export default function Producto({ producto }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -47,7 +49,7 @@ export default function Producto({ producto }) {
   return (
     <div
       className={`scale-up-animation w-full p-4 bg-yellow-500 rounded-lg flex flex-row justify-between items-center overflow-hidden hover:snap-end ${
-        isExpanded ? "h-60" : "h-14"
+        isExpanded ? "h-64" : "h-14"
       } transition-all duration-100`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -85,21 +87,36 @@ export default function Producto({ producto }) {
           <div>Descripcion:</div>
           <div className="items-center text-justify">
             {/* <div className="col-span-2 pr-5"> */}
-              <EditableText
-                text={producto.descripcion}
-                field="precio"
-                patch={patchProduct}
-                maxLength={50}
-                update={updateDescripcion}
-              />
+            <EditableText
+              text={producto.descripcion}
+              field="precio"
+              patch={patchProduct}
+              maxLength={50}
+              update={updateDescripcion}
+            />
             {/* </div> */}
             {/* <div className="col-span-1"> */}
-              {/* <EditImage
+            {/* <EditImage
                 imageUrl={producto.image}
                 patch={patchProduct}
                 field="image"
               /> */}
             {/* </div> */}
+          </div>
+          <div>
+            {producto ? (
+              <ReviewsModal
+                query="Producto"
+                value={producto.id}
+                score={producto.promedio_calific}
+                title="Reviews Producto"
+                btnText="Ver Reviews"
+              />
+            ) : (
+              <Skeleton className="rounded-2xl">
+                <Button />
+              </Skeleton>
+            )}
           </div>
         </div>
       ) : (
