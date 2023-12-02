@@ -1,6 +1,6 @@
 export default function Layout({ children }) {
   return (
-    <div className="w-full h-full p-10 bg-orange-100 justify-center">
+    <div className="h-screen h-full p-10 bg-black justify-center">
       {children}
     </div>
   );

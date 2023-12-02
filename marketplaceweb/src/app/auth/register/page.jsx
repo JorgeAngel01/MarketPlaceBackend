@@ -19,12 +19,69 @@ function RegisterPage() {
   const [error, setError] = useState(null)
   const [typeUser, setTypeUser] = useState(true)
   
-  const onSubmit = handleSubmit(async (data) => {
-    if (data.password !== data.confirmPassword) {
-      return alert("Passwords do not match");
+  const createProveedor = async ({data, userRegister}) =>{
+    try {
+      const response = await fetch("/api/register/proveedor",{
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          propietario: userRegister.id,
+          nombre: data.brandName,
+          descripcion: data.description,
+        })
+      })
+      const res = await response.json()
+      if(res.hasOwnProperty('id')){
+        localStorage.setItem('token', userRegister.token)
+        localStorage.setItem('username', data.username)
+        localStorage.setItem('accountType', "Proveedor")
+        router.push('/')
+      }else{
+        //Aqui se va a borrar el usuario recien ingresado, pero no se como aun
+      }
+    } catch (error) {
+      console.log("Error: ", error)
     }
+  }
 
-    const res = await fetch("/api/register", {
+  const createRestaurante = async ({data, userRegister}) =>{
+    try {
+      const response = await fetch("/api/register/restaurante",{
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          propietario: userRegister.id,
+          nombre: data.brandName,
+          descripcion: data.description,
+          latitud: data.latitude,
+          longitud: data.longitude,
+        })
+      })
+      const res = await response.json()
+      if(res.hasOwnProperty('id')){
+        localStorage.setItem('token', userRegister.token)
+        localStorage.setItem('username', data.username)
+        localStorage.setItem('accountType', "Restaurante")
+        
+      }else{
+        //Aqui se va a borrar el usuario recien ingresado, pero no se como aun
+      }
+    } catch (error) {
+      console.log("Error: ", error)
+    }
+  }
+
+  const onSubmit = handleSubmit(async (data) => {
+    setError(null)
+    if (data.password !== data.confirmPassword) {
+      return setError("Passwords do not match");
+    }
+    try {
+    const res = await fetch("/api/register/usuario", {
       method: "POST",
       body: JSON.stringify({
         username: data.username,
@@ -37,19 +94,65 @@ function RegisterPage() {
         "Content-Type": "application/json",
       },
     });
-    console.log("El response es", res)
-    if (res.ok) {
-      router.push("/auth/login");
+    
+    const userRegister = await res.json()
+    console.log('UserRegister', userRegister)
+    if(userRegister.hasOwnProperty('token')){
+      typeUser === false ? await createRestaurante({data, userRegister}) :
+      await createProveedor({data, userRegister})
+      router.push('/')
+    }else{
+      //Colocar los mensajes de error segun la respuesta del SERVER
+      //return setError("No se pudo generar el usuario, intente con otro nombre de usuario")
+      console.log("Error", data)
+    }
+
+    } catch (error) {
+      
     }
   });
+
+  const validatePassword = (value) => {
+    // Al menos dos letras mayúsculas
+    const uppercaseLetters = value.match(/[A-Z]/g);
+    if (!uppercaseLetters || uppercaseLetters.length < 2) {
+      return "Debe contener al menos dos letras mayúsculas";
+    }
+
+    // Al menos dos letras minúsculas
+    const lowercaseLetters = value.match(/[a-z]/g);
+    if (!lowercaseLetters || lowercaseLetters.length < 2) {
+      return "Debe contener al menos dos letras minúsculas";
+    }
+
+    // Al menos tres números no consecutivos
+    const nonConsecutiveNumbers = value.match(/^(?!.*(\d)\1{2,})(?=.*\d.*)/g);
+    if (!nonConsecutiveNumbers || nonConsecutiveNumbers.length < 3) {
+      return "Debe contener al menos tres números no consecutivos";
+    }
+
+    // Al menos dos caracteres especiales
+    const specialCharacters = value.match(/[!@#$%^&*(),.?":{}|<>]/g);
+    if (!specialCharacters || specialCharacters.length < 2) {
+      return "Debe contener al menos dos caracteres especiales";
+    }
+
+    // Longitud mínima de 10 caracteres
+    if (value.length < 10) {
+      return "Debe tener al menos 10 caracteres";
+    }
+
+    return true; // La contraseña cumple con todas las reglas
+  };
 
   console.log(errors);
 
   return (
-    <div className="mt-7 flex justify-center items-center">
-      {error && (
+    <div className="flex justify-center items-center flex-col">
+        {error && (
           <p className="bg-red-500 text-lg text-white p-3 rounded mb-2">{error}</p>
       )}
+      
       <form onSubmit={onSubmit} className="w-2/5">
         <h1 className="text-slate-200 font-bold text-4xl mb-4">Register</h1>
 
@@ -146,6 +249,7 @@ function RegisterPage() {
               value: true,
               message: "Password is required",
             },
+            // validate: validatePassword,
           })}
           className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
           placeholder="********"

@@ -1,9 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import Map from "../Map";
-import EditInfoNombre from "./EditInfoNombre";
-import EditInfoDesc from "./EditInfoDesc";
+import EditableText from "../EditableText";
 import EditUbicacion from "./EditUbicacion";
+import EditImage from "./EditImage";
+import ReviewsModal from "../ReviewsModal";
+import { Skeleton, Button } from "@nextui-org/react";
 
 export default function InfoCol({ propietario, token, onDataFetched }) {
   const [businessData, setBusinessData] = useState();
@@ -56,10 +58,11 @@ export default function InfoCol({ propietario, token, onDataFetched }) {
     <>
       <div className="text-4xl font-semibold">
         {businessData ? (
-          <EditInfoNombre
-            nombre={businessData.nombre}
+          <EditableText
+            text={businessData.nombre}
+            field="nombre"
             patch={patchRestaurante}
-            reload={reloadPage}
+            maxLength={30}
           />
         ) : (
           "Cargando..."
@@ -67,13 +70,42 @@ export default function InfoCol({ propietario, token, onDataFetched }) {
       </div>
       <div className="text-xl text-justify">
         {businessData ? (
-          <EditInfoDesc
-            descripcion={businessData.descripcion}
+          <EditableText
+            text={businessData.descripcion}
+            field="descripcion"
             patch={patchRestaurante}
-            reload={reloadPage}
+            maxLength={100}
           />
         ) : (
           "Cargando..."
+        )}
+      </div>
+      <div>
+        {/* <div>{businessData.promedio_calific}</div> */}
+        {businessData ? (
+          <ReviewsModal
+            query="Restaurante"
+            value={businessData.id}
+            score={businessData.promedio_calific}
+            title="Reviews Restaurante"
+            btnText="Ver Reviews"
+          />
+        ) : (
+          <Skeleton className="rounded-2xl">
+            <Button />
+          </Skeleton>
+        )}
+      </div>
+      <div className="h-1/6 overflow-hidden">
+        {businessData ? (
+          <EditImage
+            imageUrl={businessData.banner}
+            patch={patchRestaurante}
+            reload={reloadPage}
+            field="banner"
+          />
+        ) : (
+          <Skeleton className="w-full h-32"/>
         )}
       </div>
       {businessData ? (
