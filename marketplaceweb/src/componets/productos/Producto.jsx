@@ -4,10 +4,30 @@ import EstadoButton from "./EstadoButton";
 import EditableText from "../EditableText";
 import EditImage from "../info/EditImage";
 import ReviewsModal from "../ReviewsModal";
+import { FaTrashAlt, FaCamera } from "react-icons/fa";
 import { Button, Skeleton } from "@nextui-org/react";
 
 export default function Producto({ producto }) {
+  const token = localStorage.getItem("token");
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const deleteProduct = async (rawBody) => {
+    console.log("raw body", rawBody);
+    try {
+      const response = await fetch("api/productos", {
+        method: "DELETE",
+        headers: {
+          Authorization: `Token ${token}`,
+          Id: producto.id,
+        },
+        body: JSON.stringify(rawBody),
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error Deleting Product: ", error);
+    }
+  };
 
   const patchProduct = async (rawBody) => {
     console.log("raw body", rawBody);
@@ -103,7 +123,7 @@ export default function Producto({ producto }) {
               /> */}
             {/* </div> */}
           </div>
-          <div>
+          <div className="w-full flex flex-row gap-x-4 justify-between">
             {producto ? (
               <ReviewsModal
                 query="Producto"
@@ -117,6 +137,22 @@ export default function Producto({ producto }) {
                 <Button />
               </Skeleton>
             )}
+            <Button
+              isIconOnly
+              color="success"
+              aria-label="delete"
+              className="hover:scale-110"
+            >
+              <FaCamera />
+            </Button>
+            <Button
+              isIconOnly
+              color="danger"
+              aria-label="delete"
+              className="hover:scale-110"
+            >
+              <FaTrashAlt />
+            </Button>
           </div>
         </div>
       ) : (

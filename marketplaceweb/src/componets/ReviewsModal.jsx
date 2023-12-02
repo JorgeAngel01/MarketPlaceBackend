@@ -40,8 +40,13 @@ export default function ReviewsModal({ query, value, btnText, title, score }) {
   }, [isOpen]);
 
   return (
-    <div className="flex flex-col">
-      <Button color="secondary" onPress={onOpen}>
+    <div className="w-full flex flex-col">
+      <Button
+        color="secondary"
+        onPress={onOpen}
+        fullWidth={true}
+        className="hover:scale-105"
+      >
         {btnText}
         <RatingStarts score={score} />
       </Button>

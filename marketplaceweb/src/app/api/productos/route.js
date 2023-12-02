@@ -78,3 +78,42 @@ export async function PATCH(request) {
     );
   }
 }
+
+export async function DELETE(request) {
+  const authHeader = await request.headers.get("Authorization");
+  const idHeader = await request.headers.get("Id");
+  console.log("request", requestBody)
+  try {
+    const response = await fetch(
+      `${API_URL}/productos/${idHeader}/`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authHeader,
+        },
+      }
+    );
+
+    const data = await response.json();
+    console.log(data);
+
+    return new NextResponse(JSON.stringify(data), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    return new NextResponse(
+      JSON.stringify({ error: "Internal Server Error" }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  }
+}
