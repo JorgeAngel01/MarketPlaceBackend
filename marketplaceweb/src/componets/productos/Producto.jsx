@@ -83,8 +83,8 @@ export default function Producto({ producto }) {
             />
           </div>
           <div>Descripcion:</div>
-          <div className="grid grid-cols-3 items-center">
-            <div className="col-span-2 pr-5">
+          <div className="items-center text-justify">
+            {/* <div className="col-span-2 pr-5"> */}
               <EditableText
                 text={producto.descripcion}
                 field="precio"
@@ -92,14 +92,14 @@ export default function Producto({ producto }) {
                 maxLength={50}
                 update={updateDescripcion}
               />
-            </div>
-            <div className="col-span-1">
+            {/* </div> */}
+            {/* <div className="col-span-1"> */}
               {/* <EditImage
                 imageUrl={producto.image}
                 patch={patchProduct}
                 field="image"
               /> */}
-            </div>
+            {/* </div> */}
           </div>
         </div>
       ) : (

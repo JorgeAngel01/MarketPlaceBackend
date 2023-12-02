@@ -4,6 +4,8 @@ import Map from "../Map";
 import EditableText from "../EditableText";
 import EditUbicacion from "./EditUbicacion";
 import EditImage from "./EditImage";
+import ReviewsModal from "../ReviewsModal";
+import { Skeleton, Button } from "@nextui-org/react";
 
 export default function InfoCol({ propietario, token, onDataFetched }) {
   const [businessData, setBusinessData] = useState();
@@ -78,7 +80,23 @@ export default function InfoCol({ propietario, token, onDataFetched }) {
           "Cargando..."
         )}
       </div>
-      <div className="h-1/6">
+      <div>
+        {/* <div>{businessData.promedio_calific}</div> */}
+        {businessData ? (
+          <ReviewsModal
+            query="restaurante"
+            value={businessData.id}
+            score={businessData.promedio_calific}
+            title="Reviews Restaurante"
+            btnText="Ver Reviews"
+          />
+        ) : (
+          <Skeleton className="rounded-2xl">
+            <Button />
+          </Skeleton>
+        )}
+      </div>
+      <div className="h-1/6 overflow-hidden">
         {businessData ? (
           <EditImage
             imageUrl={businessData.banner}
@@ -87,7 +105,7 @@ export default function InfoCol({ propietario, token, onDataFetched }) {
             field="banner"
           />
         ) : (
-          "Cargando..."
+          <Skeleton className="w-full h-32"/>
         )}
       </div>
       {businessData ? (
