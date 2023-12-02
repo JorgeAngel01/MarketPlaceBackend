@@ -4,18 +4,15 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function POST(request) {
   const requestBody = await request.json();
-  console.log("request", requestBody)
+  console.log("request", requestBody);
   try {
-    const response = await fetch(
-      `${API_URL}/productos/`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      }
-    );
+    const response = await fetch(`${API_URL}/productos/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    });
 
     const data = await response.json();
     console.log(data);
@@ -43,18 +40,15 @@ export async function POST(request) {
 export async function PATCH(request) {
   const requestBody = await request.json();
   const idHeader = await request.headers.get("Id");
-  console.log("request", requestBody)
+  console.log("request", requestBody);
   try {
-    const response = await fetch(
-      `${API_URL}/productos/${idHeader}/`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      }
-    );
+    const response = await fetch(`${API_URL}/productos/${idHeader}/`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    });
 
     const data = await response.json();
     console.log(data);
@@ -80,30 +74,32 @@ export async function PATCH(request) {
 }
 
 export async function DELETE(request) {
-  const authHeader = await request.headers.get("Authorization");
-  const idHeader = await request.headers.get("Id");
-  console.log("request", requestBody)
+  const authHeader = request.headers.get("Authorization");
+  const idHeader = request.headers.get("Id");
+
   try {
-    const response = await fetch(
-      `${API_URL}/productos/${idHeader}/`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: authHeader,
-        },
-      }
-    );
-
-    const data = await response.json();
-    console.log(data);
-
-    return new NextResponse(JSON.stringify(data), {
-      status: 200,
+    const response = await fetch(`${API_URL}/productos/${idHeader}/`, {
+      method: "DELETE",
       headers: {
-        "Content-Type": "application/json",
+        Authorization: authHeader,
       },
     });
+
+    if (response.headers.get("Content-Type")?.includes("application/json")) {
+      const data = await response.json();
+      console.log(data);
+
+      return new NextResponse(JSON.stringify(data), {
+        status: response.status,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } else {
+      return new NextResponse(null, {
+        status: response.status,
+      });
+    }
   } catch (error) {
     console.error(error);
     return new NextResponse(

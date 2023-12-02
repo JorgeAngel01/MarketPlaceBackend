@@ -2,32 +2,12 @@
 import React, { useState } from "react";
 import EstadoButton from "./EstadoButton";
 import EditableText from "../EditableText";
-import EditImage from "../info/EditImage";
 import ReviewsModal from "../ReviewsModal";
-import { FaTrashAlt, FaCamera } from "react-icons/fa";
+import PhotoButton from "../PhotoButton";
 import { Button, Skeleton } from "@nextui-org/react";
 
 export default function Producto({ producto }) {
-  const token = localStorage.getItem("token");
   const [isExpanded, setIsExpanded] = useState(false);
-
-  const deleteProduct = async (rawBody) => {
-    console.log("raw body", rawBody);
-    try {
-      const response = await fetch("api/productos", {
-        method: "DELETE",
-        headers: {
-          Authorization: `Token ${token}`,
-          Id: producto.id,
-        },
-        body: JSON.stringify(rawBody),
-      });
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.error("Error Deleting Product: ", error);
-    }
-  };
 
   const patchProduct = async (rawBody) => {
     console.log("raw body", rawBody);
@@ -106,7 +86,6 @@ export default function Producto({ producto }) {
           </div>
           <div>Descripcion:</div>
           <div className="items-center text-justify">
-            {/* <div className="col-span-2 pr-5"> */}
             <EditableText
               text={producto.descripcion}
               field="precio"
@@ -114,14 +93,6 @@ export default function Producto({ producto }) {
               maxLength={50}
               update={updateDescripcion}
             />
-            {/* </div> */}
-            {/* <div className="col-span-1"> */}
-            {/* <EditImage
-                imageUrl={producto.image}
-                patch={patchProduct}
-                field="image"
-              /> */}
-            {/* </div> */}
           </div>
           <div className="w-full flex flex-row gap-x-4 justify-between">
             {producto ? (
@@ -137,22 +108,7 @@ export default function Producto({ producto }) {
                 <Button />
               </Skeleton>
             )}
-            <Button
-              isIconOnly
-              color="success"
-              aria-label="delete"
-              className="hover:scale-110"
-            >
-              <FaCamera />
-            </Button>
-            <Button
-              isIconOnly
-              color="danger"
-              aria-label="delete"
-              className="hover:scale-110"
-            >
-              <FaTrashAlt />
-            </Button>
+            <PhotoButton />
           </div>
         </div>
       ) : (
