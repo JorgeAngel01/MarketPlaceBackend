@@ -23,7 +23,7 @@ const CreateButton = ({ tag, id, onClick }) => {
   return (
     <button
       onClick={handleOnClick}
-      className="bg-green-500 hover:scale-110 text-white font-bold py-2 px-4 rounded"
+      className="my-2 bg-green-500 hover:scale-110 text-white font-bold py-2 px-4 rounded-lg"
     >
       {isLoading ? "creando..." : "Crear"}
     </button>

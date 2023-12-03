@@ -56,8 +56,10 @@ export default function Home() {
               </button>
             </div>
           </nav>
-          <div className="h-full w-full sm:p-4 md:p-10 lg:px-20 xl:px-44">
+          <div className="h-full w-full sm:p-4 md:p-10 lg:px-20 xl:px-44 xl:py-2">
+            <div>
             {renderContent()}
+            </div>
           </div>
         </main>
       </AuthGuard>
