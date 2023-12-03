@@ -9,7 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@cloudinary/react": "^1.11.2",
+    "@cloudinary/url-gen": "^1.13.0",
     "@nextui-org/react": "^2.2.9",
+    "cloudinary": "^1.41.0",
     "framer-motion": "^10.16.9",
     "next": "14.0.2",
     "next-auth": "^4.24.5",

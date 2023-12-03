@@ -38,6 +38,9 @@ export default function Producto({ producto }) {
   const updatePrecio = (newPrecio) => {
     producto.precio = newPrecio;
   };
+  const updateImage = (newImage) => {
+    producto.image = newImage;
+  };
 
   const handleMouseEnter = () => {
     setIsExpanded(true);
@@ -96,19 +99,25 @@ export default function Producto({ producto }) {
           </div>
           <div className="w-full flex flex-row gap-x-4 justify-between">
             {producto ? (
-              <ReviewsModal
-                query="Producto"
-                value={producto.id}
-                score={producto.promedio_calific}
-                title="Reviews Producto"
-                btnText="Ver Reviews"
-              />
+              <>
+                <ReviewsModal
+                  query="Producto"
+                  value={producto.id}
+                  score={producto.promedio_calific}
+                  title="Reviews Producto"
+                  btnText="Ver Reviews"
+                />
+                <PhotoButton
+                  url={producto.image}
+                  patch={patchProduct}
+                  update={updateImage}
+                />
+              </>
             ) : (
               <Skeleton className="rounded-2xl">
                 <Button />
               </Skeleton>
             )}
-            <PhotoButton />
           </div>
         </div>
       ) : (
