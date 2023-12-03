@@ -15,8 +15,10 @@ export default function ReviewsModal({ query, value, btnText, title, score }) {
   const token = localStorage.getItem("token");
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [fetchedReviews, setFetchedReviews] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     if (isOpen) {
       const getReviews = async () => {
         try {
@@ -29,6 +31,7 @@ export default function ReviewsModal({ query, value, btnText, title, score }) {
           });
           const data = await response.json();
           setFetchedReviews(data);
+          setIsLoading(false);
           console.log(data);
         } catch (error) {
           console.error("Error fetching data: ", error);
@@ -62,11 +65,16 @@ export default function ReviewsModal({ query, value, btnText, title, score }) {
               <ModalHeader className="flex flex-col gap-1 text-black">
                 {title}
               </ModalHeader>
-              <ModalBody>
-                {fetchedReviews.length > 0 &&
+              <ModalBody className="text-black">
+                {isLoading ? (
+                  <p>Cargando...</p>
+                ) : fetchedReviews.length > 0 ? (
                   fetchedReviews.map((review) => (
                     <ReviewCard key={review.id} review={review} />
-                  ))}
+                  ))
+                ) : (
+                  <p>No se encontraron reviews</p>
+                )}
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
