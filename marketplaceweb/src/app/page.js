@@ -42,11 +42,11 @@ export default function Home() {
     );
 
   return (
-    <NextUIProvider className="h-full sm:p-4 md:p-10 lg:px-20 xl:px-44">
+    <NextUIProvider className="h-full w-full">
       <AuthGuard>
-        <main className="h-full flex flex-col items-center justify-between p-10">
+        <main className="h-full w-full flex flex-col items-center justify-between">
           <nav className="bg-black p-2 w-full">
-            <div className="container mx-auto flex justify-between items-center">
+            <div className="px-8 flex justify-between items-center">
               <p className="text-white text-2xl font-bold">{accountType}</p>
               <button
                 className="bg-white text-black px-4 py-2 rounded-md"
@@ -56,7 +56,9 @@ export default function Home() {
               </button>
             </div>
           </nav>
-          {renderContent()}
+          <div className="h-full w-full sm:p-4 md:p-10 lg:px-20 xl:px-44">
+            {renderContent()}
+          </div>
         </main>
       </AuthGuard>
     </NextUIProvider>

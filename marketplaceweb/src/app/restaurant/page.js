@@ -3,7 +3,6 @@ import { useState } from "react";
 import InfoCol from "@/componets/info/InfoCol";
 import Column from "@/componets/Column";
 import ProductCol from "@/componets/ProductsCol";
-import AuthGuard from "../auth/authGuard/page";
 
 export default function Page() {
   const token = localStorage.getItem("token");
