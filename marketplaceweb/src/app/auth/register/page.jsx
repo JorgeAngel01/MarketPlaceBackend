@@ -40,6 +40,7 @@ function RegisterPage() {
         router.push('/')
       }else{
         //Aqui se va a borrar el usuario recien ingresado, pero no se como aun
+        console.log("Aqui fue donde todo valio madres")
       }
     } catch (error) {
       console.log("Error: ", error)
@@ -104,7 +105,9 @@ function RegisterPage() {
     }else{
       //Colocar los mensajes de error segun la respuesta del SERVER
       //return setError("No se pudo generar el usuario, intente con otro nombre de usuario")
-      console.log("Error", data)
+      userRegister.hasOwnProperty('email') && userRegister.hasOwnProperty('username') ? setError("A user with that email and username already exists") :
+      userRegister.hasOwnProperty('email') ? setError(userRegister.email) :
+      userRegister.hasOwnProperty('username') ? setError(userRegister.username) : null
     }
 
     } catch (error) {
