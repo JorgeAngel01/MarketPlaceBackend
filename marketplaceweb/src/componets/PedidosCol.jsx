@@ -10,10 +10,8 @@ export default function PedidosCol({ pedidos, update }) {
   }, [items]);
 
   const handleUpdate = (itemId) => {
-    // Call the update function
     update(itemId);
 
-    // Remove the item from the state
     setItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
   };
 

@@ -68,8 +68,6 @@ export default function Pedido({ item, update }) {
         body: JSON.stringify(rawBody),
       });
       update();
-      //const data = await response.json();
-      //console.log(data);
     } catch (error) {
       console.error("Error Patching Product: ", error);
     }
