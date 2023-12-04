@@ -1,6 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Button, Skeleton } from "@nextui-org/react";
+import { MdCancel } from "react-icons/md";
+import { FaCheckCircle } from "react-icons/fa";
 
 export default function Pedido({ item, update }) {
   const token = localStorage.getItem("token");
@@ -23,15 +25,15 @@ export default function Pedido({ item, update }) {
         const dataOrden = await resOrden.json();
         setOrden(dataOrden);
 
-        // const resUser = await fetch(`api/usuarios`, {
-        //   method: "GET",
-        //   headers: {
-        //     Authorization: `Token ${token}`,
-        //     Id: orden.cliente,
-        //   },
-        // });
-        // const dataUser = await resUser.json();
-        // setUser(dataUser);
+        const resUser = await fetch(`api/usuarios`, {
+          method: "GET",
+          headers: {
+            Authorization: `Token ${token}`,
+            Id: dataOrden.cliente,
+          },
+        });
+        const dataUser = await resUser.json();
+        setUser(dataUser);
 
         const resProduto = await fetch(`api/productos`, {
           method: "GET",
@@ -79,11 +81,21 @@ export default function Pedido({ item, update }) {
     setIsExpanded(false);
   };
 
+  const getDate = (timeStamp) => {
+    const dateObject = new Date(timeStamp);
+
+    const cdmxTime = dateObject.toLocaleString("en-US", {
+      timeZone: "America/Mexico_City",
+    });
+    console.log(cdmxTime);
+    return cdmxTime;
+  };
+
   return (
     <Skeleton isLoaded={!loading} className="rounded-lg">
       <div
-        className={`w-full p-4 bg-yellow-500 rounded-lg flex flex-row justify-between items-center overflow-hidden hover:snap-end ${
-          isExpanded ? "h-40" : "h-14"
+        className={`w-full p-4 bg-yellow-500 rounded-lg flex flex-row justify-between items-center overflow-hidden space-y-2 hover:snap-end ${
+          isExpanded ? "h-56" : "h-14"
         } transition-all duration-100`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -103,7 +115,18 @@ export default function Pedido({ item, update }) {
               <div>Total:</div>
               <div>$ {(item.cantidad * producto.precio).toFixed(2)}</div>
             </div>
-            <div className="w-full flex flex-row gap-x-4 justify-between"></div>
+            <div className="text-sm text-justify">
+              Orden por {user.first_name} {user.last_name} el{" "}
+              {getDate(orden.fecha)}
+            </div>
+            <div className="w-full flex flex-row mt-2 justify-between">
+              <Button color="danger" variant="ghost">
+                <MdCancel size={24} />
+              </Button>
+              <Button color="success" variant="ghost">
+                <FaCheckCircle size={24} />
+              </Button>
+            </div>
           </div>
         ) : (
           <>
