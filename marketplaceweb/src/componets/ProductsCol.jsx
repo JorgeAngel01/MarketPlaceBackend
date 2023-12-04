@@ -5,6 +5,7 @@ import CreateButton from "./CreateButton";
 
 export default function ProductCol({ id, token, type }) {
   const [productos, setProductos] = useState();
+  const [tag, setTag] = useState();
 
   const getProductos = async () => {
     try {
@@ -23,6 +24,8 @@ export default function ProductCol({ id, token, type }) {
   };
 
   useEffect(() => {
+    if (type === "rest") setTag("restaurantes");
+    if (type === "prov") setTag("proveedores");
     getProductos();
   }, [id, token]);
 
@@ -43,17 +46,17 @@ export default function ProductCol({ id, token, type }) {
   };
 
   return (
-    <>
-      <div className="w-full flex pr-5 flex-row justify-between">
+    <div className="w-full h-full flex flex-col justify-between">
+      <div className="w-full flex flex-row justify-between">
         <div className="text-2xl pt-2 font-semibold">Productos</div>
-        <CreateButton tag="restaurantes" id={id} onClick={createProduct} />
+        <CreateButton tag={tag} id={id} onClick={createProduct} />
       </div>
-      <div className="h-full w-full p-6 bg-white rounded-lg space-y-4 overflow-y-scroll snap-y">
+      <div className="h-[620px] w-full max-h-[620px] p-6 bg-white rounded-lg space-y-4 overflow-y-auto snap-y">
         {productos &&
           productos.map((producto) => (
             <Producto key={producto.id} producto={producto} />
           ))}
       </div>
-    </>
+    </div>
   );
 }

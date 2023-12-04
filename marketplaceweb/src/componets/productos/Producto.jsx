@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import EstadoButton from "./EstadoButton";
 import EditableText from "../EditableText";
-import EditImage from "../info/EditImage";
 import ReviewsModal from "../ReviewsModal";
+import PhotoButton from "../PhotoButton";
 import { Button, Skeleton } from "@nextui-org/react";
 
 export default function Producto({ producto }) {
@@ -37,6 +37,9 @@ export default function Producto({ producto }) {
   };
   const updatePrecio = (newPrecio) => {
     producto.precio = newPrecio;
+  };
+  const updateImage = (newImage) => {
+    producto.image = newImage;
   };
 
   const handleMouseEnter = () => {
@@ -86,7 +89,6 @@ export default function Producto({ producto }) {
           </div>
           <div>Descripcion:</div>
           <div className="items-center text-justify">
-            {/* <div className="col-span-2 pr-5"> */}
             <EditableText
               text={producto.descripcion}
               field="precio"
@@ -94,24 +96,23 @@ export default function Producto({ producto }) {
               maxLength={50}
               update={updateDescripcion}
             />
-            {/* </div> */}
-            {/* <div className="col-span-1"> */}
-            {/* <EditImage
-                imageUrl={producto.image}
-                patch={patchProduct}
-                field="image"
-              /> */}
-            {/* </div> */}
           </div>
-          <div>
+          <div className="w-full flex flex-row gap-x-4 justify-between">
             {producto ? (
-              <ReviewsModal
-                query="Producto"
-                value={producto.id}
-                score={producto.promedio_calific}
-                title="Reviews Producto"
-                btnText="Ver Reviews"
-              />
+              <>
+                <ReviewsModal
+                  query="Producto"
+                  value={producto.id}
+                  score={producto.promedio_calific}
+                  title="Reviews Producto"
+                  btnText="Ver Reviews"
+                />
+                <PhotoButton
+                  url={producto.image}
+                  patch={patchProduct}
+                  update={updateImage}
+                />
+              </>
             ) : (
               <Skeleton className="rounded-2xl">
                 <Button />
