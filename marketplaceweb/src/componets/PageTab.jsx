@@ -10,9 +10,9 @@ export default function PageTabs({ key, type, tab1, tab2, tab3 }) {
       <Tab key="ordenes" title="Ordenes">
         {tab2}
       </Tab>
-      <Tab key="perfil" title="Perfil">
+      {/* <Tab key="perfil" title="Perfil">
         {tab3}
-      </Tab>
+      </Tab> */}
     </Tabs>
   );
 }

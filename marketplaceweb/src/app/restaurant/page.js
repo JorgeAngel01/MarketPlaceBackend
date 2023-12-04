@@ -24,6 +24,7 @@ export default function Page() {
         <div className="h-full w-full grid grid-cols-2 shadow-md rounded-sm text-black">
           <Column>
             <InfoCol
+              type="restaurante"
               propietario={propietarioName}
               token={token}
               onDataFetched={handleDataFetched}

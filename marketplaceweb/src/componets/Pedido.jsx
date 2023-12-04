@@ -110,7 +110,7 @@ export default function Pedido({ item, update }) {
     <Skeleton isLoaded={!loading} className="rounded-lg">
       <div
         className={`w-full p-4 bg-yellow-500 rounded-lg flex flex-row justify-between items-center overflow-hidden space-y-2 hover:snap-end ${
-          isExpanded ? "h-56" : "h-14"
+          isExpanded ? "h-64" : "h-14"
         } transition-all duration-100`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}

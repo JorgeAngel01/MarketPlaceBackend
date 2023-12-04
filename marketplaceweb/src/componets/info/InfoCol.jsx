@@ -7,13 +7,13 @@ import EditImage from "./EditImage";
 import ReviewsModal from "../ReviewsModal";
 import { Skeleton, Button } from "@nextui-org/react";
 
-export default function InfoCol({ propietario, token, onDataFetched }) {
+export default function InfoCol({ type, propietario, token, onDataFetched }) {
   const [businessData, setBusinessData] = useState();
 
   useEffect(() => {
-    const getRestaurante = async () => {
+    const getInfo = async () => {
       try {
-        const response = await fetch("api/busqueda/restaurante", {
+        const response = await fetch(`api/busqueda/${type}`, {
           method: "GET",
           headers: {
             Authorization: `Token ${token}`,
@@ -26,17 +26,20 @@ export default function InfoCol({ propietario, token, onDataFetched }) {
         console.log(data);
         console.log(businessData);
       } catch (error) {
-        console.error("Error fetching data: ", error);
+        console.error("Error fetching info: ", error);
       }
     };
 
-    getRestaurante();
+    getInfo();
   }, []);
 
-  const patchRestaurante = async (rawBody) => {
+  const patchType = async (rawBody) => {
+    let endUrl = "";
+    if (type === "restaurante") endUrl = "restaurantes";
+    if (type === "proveedor") endUrl = "proveedores";
     console.log("raw body", rawBody);
     try {
-      const response = await fetch("api/restaurantes", {
+      const response = await fetch(`api/${endUrl}`, {
         method: "PATCH",
         headers: {
           // Authorization: `Token ${token}`,
@@ -61,7 +64,7 @@ export default function InfoCol({ propietario, token, onDataFetched }) {
           <EditableText
             text={businessData.nombre}
             field="nombre"
-            patch={patchRestaurante}
+            patch={patchType}
             maxLength={30}
           />
         ) : (
@@ -73,7 +76,7 @@ export default function InfoCol({ propietario, token, onDataFetched }) {
           <EditableText
             text={businessData.descripcion}
             field="descripcion"
-            patch={patchRestaurante}
+            patch={patchType}
             maxLength={100}
           />
         ) : (
@@ -84,10 +87,10 @@ export default function InfoCol({ propietario, token, onDataFetched }) {
         {/* <div>{businessData.promedio_calific}</div> */}
         {businessData ? (
           <ReviewsModal
-            query="Restaurante"
+            query={type === "restaurante" ? "Restaurante" : "Proveedor"}
             value={businessData.id}
             score={businessData.promedio_calific}
-            title="Reviews Restaurante"
+            title="Reviews"
             btnText="Ver Reviews"
           />
         ) : (
@@ -100,12 +103,12 @@ export default function InfoCol({ propietario, token, onDataFetched }) {
         {businessData ? (
           <EditImage
             imageUrl={businessData.banner}
-            patch={patchRestaurante}
+            patch={patchType}
             reload={reloadPage}
             field="banner"
           />
         ) : (
-          <Skeleton className="w-full h-32"/>
+          <Skeleton className="w-full h-32" />
         )}
       </div>
       {businessData ? (
@@ -120,13 +123,13 @@ export default function InfoCol({ propietario, token, onDataFetched }) {
               <div>
                 <EditUbicacion
                   ubicacion={businessData.latitud}
-                  patch={patchRestaurante}
+                  patch={patchType}
                   reload={reloadPage}
                   tag="latitud"
                 />
                 <EditUbicacion
                   ubicacion={businessData.longitud}
-                  patch={patchRestaurante}
+                  patch={patchType}
                   reload={reloadPage}
                   tag="longitud"
                 />
