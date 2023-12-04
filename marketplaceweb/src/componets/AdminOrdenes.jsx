@@ -8,28 +8,28 @@ export default function AdminOrdenes({ id, type, token }) {
   const [ordenes, setOrdenes] = useState(null);
   const [nuevas, setNuevas] = useState(null);
 
-  useEffect(() => {
-    const getOrdenes = async () => {
-      try {
-        const resItems = await fetch(`api/busqueda/items`, {
-          method: "GET",
-          headers: {
-            Authorization: `Token ${token}`,
-            [type]: id,
-          },
-        });
-        const ordenItems = await resItems.json();
-        setOrdenes(ordenItems.filter((ordenItem) => ordenItem.estado !== "0"));
-        setNuevas(ordenItems.filter((ordenItem) => ordenItem.estado === "0"));
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
+  const fetchOrdenes = async () => {
     setLoading(true);
-    getOrdenes();
+    try {
+      const resItems = await fetch(`api/busqueda/items`, {
+        method: "GET",
+        headers: {
+          Authorization: `Token ${token}`,
+          [type]: id,
+        },
+      });
+      const ordenItems = await resItems.json();
+      setOrdenes(ordenItems.filter((ordenItem) => ordenItem.estado !== "0"));
+      setNuevas(ordenItems.filter((ordenItem) => ordenItem.estado === "0"));
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrdenes();
   }, [id, token]);
 
   return (
@@ -39,7 +39,7 @@ export default function AdminOrdenes({ id, type, token }) {
       ) : (
         <Spinner label="Cargando" color="primary" />
       )}
-      {nuevas ? <PedidosCol pedidos={nuevas} /> : undefined}
+      {nuevas ? <PedidosCol pedidos={nuevas} update={fetchOrdenes} /> : undefined}
     </div>
   );
 }

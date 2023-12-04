@@ -44,7 +44,7 @@ export default function Pedido({ item, update }) {
         });
         const dataProducto = await resProduto.json();
         setProducto(dataProducto);
-        console.log(dataProducto);
+        // console.log(dataProducto);
       } catch (error) {
         console.error("Error fetching data: ", error);
       } finally {
@@ -56,10 +56,10 @@ export default function Pedido({ item, update }) {
     getJoinData();
   }, [item]);
 
-  const patchProduct = async (rawBody) => {
+  const patchItem = async (rawBody) => {
     console.log("raw body", rawBody);
     try {
-      const response = await fetch("api/productos", {
+      const response = await fetch("api/items", {
         method: "PATCH",
         headers: {
           // Authorization: `Token ${token}`,
@@ -67,8 +67,9 @@ export default function Pedido({ item, update }) {
         },
         body: JSON.stringify(rawBody),
       });
-      const data = await response.json();
-      console.log(data);
+      update();
+      //const data = await response.json();
+      //console.log(data);
     } catch (error) {
       console.error("Error Patching Product: ", error);
     }
@@ -87,8 +88,22 @@ export default function Pedido({ item, update }) {
     const cdmxTime = dateObject.toLocaleString("en-US", {
       timeZone: "America/Mexico_City",
     });
-    console.log(cdmxTime);
+    //console.log(cdmxTime);
     return cdmxTime;
+  };
+
+  const handleButton = async (newEstado) => {
+    setLoading(true)
+    const dicEstado = {
+      estado: newEstado,
+    };
+    try {
+      await patchItem(dicEstado);
+      // if (update) update(editedText);
+    } catch (error) {
+      setLoading(false)
+      console.error(`Error updating estado: `, error);
+    }
   };
 
   return (
@@ -120,10 +135,20 @@ export default function Pedido({ item, update }) {
               {getDate(orden.fecha)}
             </div>
             <div className="w-full flex flex-row mt-2 justify-between">
-              <Button color="danger" variant="ghost">
+              <Button
+                color="danger"
+                variant="ghost"
+                isLoading={loading}
+                onPress={() => handleButton(1)}
+              >
                 <MdCancel size={24} />
               </Button>
-              <Button color="success" variant="ghost">
+              <Button
+                color="success"
+                variant="ghost"
+                isLoading={loading}
+                onPress={() => handleButton(2)}
+              >
                 <FaCheckCircle size={24} />
               </Button>
             </div>
