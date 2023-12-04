@@ -46,7 +46,7 @@ export default function ProductCol({ id, token, type }) {
   };
 
   return (
-    <div className="w-full h-full flex flex-col justify-between">
+    <div className="w-full h-full flex flex-col justify-start">
       <div className="w-full flex flex-row justify-between">
         <div className="text-2xl pt-2 font-semibold">Productos</div>
         <CreateButton tag={tag} id={id} onClick={createProduct} />
