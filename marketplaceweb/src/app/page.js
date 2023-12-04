@@ -42,7 +42,7 @@ export default function Home() {
     );
 
   return (
-    <NextUIProvider className="h-full w-full">
+    <NextUIProvider className="h-full w-full overflow-hidden">
       <AuthGuard>
         <main className="h-full w-full flex flex-col items-center justify-between">
           <nav className="bg-black p-2 w-full">

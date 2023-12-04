@@ -3,7 +3,8 @@ import { useState } from "react";
 import InfoCol from "@/componets/info/InfoCol";
 import Column from "@/componets/Column";
 import ProductCol from "@/componets/ProductsCol";
-import { Tabs, Tab } from "@nextui-org/react";
+import PageTabs from "@/componets/PageTab";
+import AdminOrdenes from "@/componets/AdminOrdenes";
 
 export default function Page() {
   const token = localStorage.getItem("token");
@@ -16,8 +17,10 @@ export default function Page() {
   };
 
   return (
-    <Tabs variant="underlined" aria-label="Tabs variants">
-      <Tab key="photos" title="Photos">
+    <PageTabs
+      key="restaurante"
+      type="Restaurante"
+      tab1={
         <div className="h-full w-full grid grid-cols-2 shadow-md rounded-sm text-black">
           <Column>
             <InfoCol
@@ -39,9 +42,15 @@ export default function Page() {
             )}
           </Column>
         </div>
-      </Tab>
-      <Tab key="music" title="Music" />
-      <Tab key="videos" title="Videos" />
-    </Tabs>
+      }
+      tab2={
+        idRestaurante ? (
+          <AdminOrdenes id={idRestaurante} type="restaurante" token={token} />
+        ) : (
+          <div>Cargando...</div>
+        )
+      }
+      tab3={<div></div>}
+    />
   );
 }
