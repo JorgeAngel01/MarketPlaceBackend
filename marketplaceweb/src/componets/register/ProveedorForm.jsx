@@ -11,6 +11,10 @@ export default function ProveedorForm({register, errors}){
               value: true,
               message: "Brand Name is required",
             },
+            maxLength: {
+              value: 30,
+              message: "Input cannot exceed 30 characters",
+            },
           })}
           className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
           placeholder="Your Brand Name"
@@ -31,6 +35,10 @@ export default function ProveedorForm({register, errors}){
             required: {
               value: true,
               message: "description is required",
+            },
+            maxLength: {
+              value: 30,
+              message: "Input cannot exceed 30 characters",
             },
           })}
           className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"

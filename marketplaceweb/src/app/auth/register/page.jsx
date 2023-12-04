@@ -18,6 +18,21 @@ function RegisterPage() {
   const router = useRouter();
   const [error, setError] = useState(null)
   const [typeUser, setTypeUser] = useState(true)
+
+  const deleteUser = async({userRegister}) => {
+    try {
+      const response = await fetch("api/register/eliminarUsuario", {
+        method: "DELETE",
+        headers: {
+          Authorization: `Token ${userRegister.token}`,
+          Id: userRegister.id,
+        },
+      });
+      const data = await response.json();
+    } catch (error) {
+      
+    }
+  }
   
   const createProveedor = async ({data, userRegister}) =>{
     try {
@@ -40,7 +55,7 @@ function RegisterPage() {
         router.push('/')
       }else{
         //Aqui se va a borrar el usuario recien ingresado, pero no se como aun
-        console.log("Aqui fue donde todo valio madres")
+        deleteUser(userRegister)
       }
     } catch (error) {
       console.log("Error: ", error)
@@ -70,6 +85,7 @@ function RegisterPage() {
         
       }else{
         //Aqui se va a borrar el usuario recien ingresado, pero no se como aun
+        deleteUser(userRegister)
       }
     } catch (error) {
       console.log("Error: ", error)
@@ -129,10 +145,10 @@ function RegisterPage() {
     }
 
     // Al menos tres números no consecutivos
-    const nonConsecutiveNumbers = value.match(/^(?!.*(\d)\1{2,})(?=.*\d.*)/g);
-    if (!nonConsecutiveNumbers || nonConsecutiveNumbers.length < 3) {
-      return "Debe contener al menos tres números no consecutivos";
-    }
+    // const nonConsecutiveNumbers = value.match(/^(?!.*(\d)\1{2,})(?=.*\d.*)/g);
+    // if (!nonConsecutiveNumbers || nonConsecutiveNumbers.length < 3) {
+    //   return "Debe contener al menos tres números no consecutivos";
+    // }
 
     // Al menos dos caracteres especiales
     const specialCharacters = value.match(/[!@#$%^&*(),.?":{}|<>]/g);
@@ -171,6 +187,10 @@ function RegisterPage() {
               value: true,
               message: "Username is required",
             },
+            maxLength: {
+              value: 30,
+              message: "Input cannot exceed 30 characters",
+            },
           })}
           className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
           placeholder="yourUser123"
@@ -191,6 +211,10 @@ function RegisterPage() {
             required: {
               value: true,
               message: "First Name is required",
+            },
+            maxLength: {
+              value: 30,
+              message: "Input cannot exceed 30 characters",
             },
           })}
           className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
@@ -213,6 +237,10 @@ function RegisterPage() {
               value: true,
               message: "Last Name is required",
             },
+            maxLength: {
+              value: 30,
+              message: "Input cannot exceed 30 characters",
+            },
           })}
           className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
           placeholder="Your Last Name"
@@ -234,6 +262,10 @@ function RegisterPage() {
               value: true,
               message: "Email is required",
             },
+            maxLength: {
+              value: 30,
+              message: "Input cannot exceed 30 characters",
+            },
           })}
           className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
           placeholder="user@email.com"
@@ -252,7 +284,11 @@ function RegisterPage() {
               value: true,
               message: "Password is required",
             },
-            // validate: validatePassword,
+            maxLength: {
+              value: 30,
+              message: "Input cannot exceed 30 characters",
+            },
+            validate: validatePassword,
           })}
           className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
           placeholder="********"
@@ -275,6 +311,10 @@ function RegisterPage() {
             required: {
               value: true,
               message: "Confirm Password is required",
+            },
+            maxLength: {
+              value: 30,
+              message: "Input cannot exceed 30 characters",
             },
           })}
           className="p-3 rounded block mb-2 bg-slate-900 text-slate-300 w-full"
